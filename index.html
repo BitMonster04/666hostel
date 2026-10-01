@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bar | 666 Pinheiros — Hostel, Adega & Bar</title>
+    <meta name="description" content="O bar do 666 Pinheiros: drinks, caipirinhas e aberto 24h na Rua Padre Carvalho, 666, Pinheiros, São Paulo. Reserve sua mesa pelo WhatsApp.">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="666 Pinheiros">
+    <link rel="canonical" href="https://bitmonster04.github.io/Hostel-666-Pinheiros/bar/">
+    <meta name="theme-color" content="#0a0506">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:url" content="https://bitmonster04.github.io/Hostel-666-Pinheiros/bar/">
+    <meta property="og:site_name" content="666 Pinheiros">
+    <meta property="og:title" content="Bar | 666 Pinheiros — Hostel, Adega & Bar">
+    <meta property="og:description" content="O bar do 666 Pinheiros: drinks, caipirinhas e aberto 24h em Pinheiros, São Paulo.">
+    <meta property="og:image" content="https://bitmonster04.github.io/Hostel-666-Pinheiros/bar/assets/bg-fachada.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bar | 666 Pinheiros — Hostel, Adega & Bar">
+    <meta name="twitter:description" content="O bar do 666 Pinheiros: drinks, caipirinhas e aberto 24h em Pinheiros, São Paulo.">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-180.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BarOrPub",
+      "name": "666 Pinheiros — Bar",
+      "image": "https://bitmonster04.github.io/Hostel-666-Pinheiros/bar/assets/bg-fachada.jpg",
+      "url": "https://bitmonster04.github.io/Hostel-666-Pinheiros/bar/",
+      "telephone": "+5511980991685",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Padre Carvalho, 666",
+        "addressLocality": "São Paulo",
+        "addressRegion": "SP",
+        "postalCode": "05427-020",
+        "addressCountry": "BR"
+      },
+      "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "00:00", "closes": "23:59" }
+      ]
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        redneon: { DEFAULT: '#ff2b3f', deep: '#8c0014', glow: '#ff6b7a' },
+                        barink: { bg: '#0a0506', panel: '#120a0b' }
+                    },
+                    fontFamily: {
+                        heading: ['Cinzel', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html, body { background: #0a0506; }
+
+        /* FUNDO COM PARALLAX — foto real da fachada, mais lenta que o scroll */
+        .parallax-wrap {
+            position: fixed;
+            inset: -6% -2%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        .parallax-bg {
+            position: absolute;
+            inset: -8%;
+            background-image: url('assets/bg-fachada.jpg');
+            background-size: cover;
+            background-position: center 18%;
+            filter: saturate(1.05) contrast(1.05);
+            will-change: transform;
+        }
+        /* PAINEL PRETO A 30% POR CIMA DO FUNDO */
+        .veil {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: rgba(5, 2, 2, 0.3);
+            pointer-events: none;
+        }
+        /* reforço de legibilidade só atrás dos blocos de texto, mantendo o resto limpo */
+        .text-panel {
+            background: rgba(5, 2, 2, 0.55);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+        }
+
+        .neon-red-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: #fff3f3;
+            text-shadow:
+                0 0 4px #ffffff,
+                0 0 10px #ff2b3f,
+                0 0 22px #ff2b3f,
+                0 0 40px #b3001a,
+                0 0 70px rgba(179, 0, 26, 0.6);
+            letter-spacing: 0.06em;
+        }
+        .neon-red-badge {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: #ffecec;
+            text-shadow: 0 0 3px #fff, 0 0 8px #ff2b3f, 0 0 18px #ff2b3f, 0 0 30px #8c0014;
+            letter-spacing: 0.25em;
+        }
+        .neon-logo-glow {
+            filter:
+                drop-shadow(0 0 6px #fff5f5)
+                drop-shadow(0 0 16px #ff2b3f)
+                drop-shadow(0 0 34px #b3001a)
+                drop-shadow(0 0 60px rgba(179,0,26,0.55));
+        }
+        @keyframes neonFlickerRed {
+            0%, 100% { opacity: 1; } 4% { opacity: .82; } 6% { opacity: 1; }
+            7% { opacity: .35; } 8% { opacity: 1; } 92% { opacity: 1; } 93% { opacity: .75; } 94% { opacity: 1; }
+        }
+        .flicker-red { animation: neonFlickerRed 5.5s infinite; }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-14px); }
+        }
+        .float-bubble { animation: floatSlow 6s ease-in-out infinite; }
+
+        .bubble-ring {
+            border: 2px solid rgba(255,43,63,0.65);
+            box-shadow: 0 0 18px rgba(255,43,63,0.45), 0 0 40px rgba(140,0,20,0.35);
+        }
+
+        ::selection { background: #ff2b3f; color: #fff; }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0a0506; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3a1216; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #ff2b3f; }
+    </style>
+</head>
+<body class="text-gray-200 font-sans antialiased custom-scrollbar min-h-screen">
+
+    <div class="parallax-wrap"><div class="parallax-bg" id="parallax-bg"></div></div>
+    <div class="veil"></div>
+
+    <!-- NAV -->
+    <header class="sticky top-0 z-50 bg-black/70 backdrop-blur-md border-b border-redneon/20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="../index.html" class="neon-red-text text-sm sm:text-base tracking-widest">666 PINHEIROS</a>
+                <nav class="hidden md:flex items-center gap-7 text-xs font-semibold uppercase tracking-widest text-gray-300">
+                    <a href="../index.html" class="hover:text-redneon transition-colors">Início</a>
+                    <a href="../quartos/" class="hover:text-redneon transition-colors">Quartos</a>
+                    <a href="../adega/" class="hover:text-redneon transition-colors">Adega</a>
+                    <a href="#" class="text-redneon">Bar</a>
+                    <a href="../contato/" class="hover:text-redneon transition-colors">Contato</a>
+                </nav>
+                <button onclick="reservar()" class="px-4 py-2 rounded-md bg-redneon text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 shadow-[0_0_15px_rgba(255,43,63,0.5)] transition">
+                    <i class="fa-brands fa-whatsapp mr-1"></i> Reservar
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="min-h-[85vh] flex flex-col items-center justify-center text-center px-4 py-16">
+        <picture>
+            <source srcset="assets/logo-bar-900.webp" type="image/webp">
+            <img src="assets/logo-bar-900.png" alt="666 Pinheiros — Bar / Adega" width="420" height="259" class="neon-logo-glow w-64 sm:w-80 md:w-96 h-auto mb-8">
+        </picture>
+
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-redneon/50 mb-6 flicker-red">
+            <span class="w-2 h-2 rounded-full bg-redneon"></span>
+            <span class="neon-red-badge text-xs">ABERTO 24H</span>
+        </div>
+
+        <h1 class="font-heading text-3xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight max-w-3xl text-panel px-6 py-4 rounded-xl">
+            O BAR QUE NÃO FECHA EM <span class="text-redneon">PINHEIROS</span>
+        </h1>
+
+        <p class="text-gray-300 max-w-xl mt-6 text-sm sm:text-base leading-relaxed text-panel px-5 py-3 rounded-lg">
+            Drinks autorais, caipirinhas geladas e aquele clima de rua movimentada — todo santo dia, a qualquer hora.
+        </p>
+
+        <button onclick="reservar()" class="mt-8 px-8 py-4 rounded-md bg-gradient-to-r from-redneon to-redneon-deep text-white font-extrabold text-sm uppercase tracking-widest shadow-[0_0_30px_rgba(255,43,63,0.55)] hover:shadow-[0_0_45px_rgba(255,43,63,0.85)] hover:scale-105 transition duration-300">
+            <i class="fa-brands fa-whatsapp mr-2"></i> Reservar Mesa
+        </button>
+    </section>
+
+    <!-- AMBIENTE: bolhas com as fotos reais -->
+    <section class="py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-14 text-panel inline-block px-6 py-3 rounded-lg mx-auto">
+                <span class="text-redneon uppercase tracking-widest text-xs font-bold">O Ambiente</span>
+                <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white mt-1">Sente, bebe, aproveita</h2>
+            </div>
+
+            <div class="grid md:grid-cols-5 gap-10 items-center">
+                <div class="md:col-span-2 flex justify-center">
+                    <div class="float-bubble">
+                        <picture>
+                            <source srcset="assets/bubble-drink.webp" type="image/webp">
+                            <img src="assets/bubble-drink.jpg" alt="Gin tônica Beefeater servido no bar do 666 Pinheiros" width="320" height="320" loading="lazy" decoding="async" class="w-56 h-56 sm:w-72 sm:h-72 rounded-full object-cover bubble-ring">
+                        </picture>
+                    </div>
+                </div>
+
+                <div class="md:col-span-3">
+                    <div class="rounded-2xl overflow-hidden bubble-ring">
+                        <picture>
+                            <source srcset="assets/bubble-salao.webp" type="image/webp">
+                            <img src="assets/bubble-salao.jpg" alt="Salão interno do bar do 666 Pinheiros, com mesas e iluminação neon" width="1280" height="720" loading="lazy" decoding="async" class="w-full h-auto object-cover hover:scale-105 transition duration-500">
+                        </picture>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DESTAQUES: itens reais do bar -->
+    <section class="py-16 px-4">
+        <div class="max-w-4xl mx-auto text-panel rounded-2xl p-8 sm:p-10">
+            <div class="text-center mb-10">
+                <span class="text-redneon uppercase tracking-widest text-xs font-bold">Pra Começar</span>
+                <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white mt-1">Destaques do Bar</h2>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-6">
+                <div class="p-5 rounded-xl border border-redneon/25 bg-black/30 hover:border-redneon/60 transition">
+                    <i class="fa-solid fa-martini-glass-citrus text-redneon text-xl mb-3"></i>
+                    <h3 class="font-heading text-white font-bold mb-1">Caipirinha de Limão</h3>
+                    <p class="text-xs text-gray-400 mb-3">Clássica, geladinha, do jeito certo.</p>
+                    <span class="text-redneon font-bold">R$ 14,99</span>
+                </div>
+                <div class="p-5 rounded-xl border border-redneon/25 bg-black/30 hover:border-redneon/60 transition">
+                    <i class="fa-solid fa-martini-glass-citrus text-redneon text-xl mb-3"></i>
+                    <h3 class="font-heading text-white font-bold mb-1">Caipirinha de Morango c/ Kiwi</h3>
+                    <p class="text-xs text-gray-400 mb-3">Refrescância em cada gole.</p>
+                    <span class="text-redneon font-bold">R$ 19,99</span>
+                </div>
+                <div class="p-5 rounded-xl border border-redneon/25 bg-black/30 hover:border-redneon/60 transition">
+                    <i class="fa-solid fa-martini-glass text-redneon text-xl mb-3"></i>
+                    <h3 class="font-heading text-white font-bold mb-1">Gin Tônica Beefeater</h3>
+                    <p class="text-xs text-gray-400 mb-3">London Dry Gin, bem gelado, com limão.</p>
+                    <span class="text-redneon font-bold">Consulte</span>
+                </div>
+            </div>
+            <p class="text-center text-xs text-gray-500 mt-8">Cardápio completo em breve — essas são as nossas estrelas por enquanto.</p>
+        </div>
+    </section>
+
+    <!-- CONTATO -->
+    <footer class="py-16 px-4 border-t border-redneon/15">
+        <div class="max-w-4xl mx-auto text-center text-panel rounded-2xl p-8">
+            <h2 class="font-heading text-xl sm:text-2xl font-bold text-white mb-4">Rua Padre Carvalho, 666 — Pinheiros, São Paulo</h2>
+            <p class="text-gray-400 text-sm mb-6">CEP 05427-020 · Próximo ao Metrô Faria Lima</p>
+            <a href="https://wa.me/5511980991685" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-gradient-to-r from-redneon to-redneon-deep text-white font-extrabold text-sm uppercase tracking-widest shadow-[0_0_25px_rgba(255,43,63,0.5)] hover:shadow-[0_0_40px_rgba(255,43,63,0.8)] transition">
+                <i class="fa-brands fa-whatsapp text-lg"></i> (11) 98099-1685
+            </a>
+            <div class="flex justify-center gap-6 mt-6 text-lg text-gray-400">
+                <a href="https://www.instagram.com/666hostel/" target="_blank" rel="noopener" class="hover:text-redneon transition" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:pinheiros666hostel@outlook.com" class="hover:text-redneon transition" aria-label="E-mail"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+            <p class="text-center text-xs text-gray-600 mt-8">© 2026 666 Pinheiros. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Parallax sutil: fundo se move mais devagar que o scroll da página
+        const bg = document.getElementById('parallax-bg');
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    bg.style.transform = `translateY(${window.scrollY * 0.12}px)`;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        const WHATS_NUMBER = "5511980991685";
+        function reservar() {
+            const msg = "Olá! Gostaria de reservar uma mesa no Bar do 666 Pinheiros.";
+            window.open(`https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+        }
+    </script>
+</body>
+</html>
