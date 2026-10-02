@@ -208,6 +208,20 @@
             transition: all 0.3s;
         }
         .obras-btn:hover { box-shadow: 0 0 35px rgba(255,140,26,0.85); transform: scale(1.03); }
+        .obras-actions {
+            display: flex; flex-wrap: wrap; gap: 0.75rem;
+            justify-content: center; margin-top: 1rem;
+        }
+        .obras-btn-voltar {
+            background: transparent;
+            border: 2px solid rgba(255,140,26,0.7);
+            color: #ff8c1a;
+            box-shadow: 0 0 12px rgba(255,140,26,0.35);
+        }
+        .obras-btn-voltar:hover {
+            background: rgba(255,140,26,0.1);
+            box-shadow: 0 0 25px rgba(255,140,26,0.7);
+        }
         @media (max-width: 480px) {
             .obras-card { padding: 1.75rem 1rem; }
             .obras-card h2 { font-size: 1.1rem; }
@@ -380,9 +394,14 @@
                 <div class="countdown-item"><div class="countdown-num" id="cd-min">00</div><div class="countdown-label">Min</div></div>
                 <div class="countdown-item"><div class="countdown-num" id="cd-sec">00</div><div class="countdown-label">Seg</div></div>
             </div>
-            <a href="https://wa.me/5511980991685?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20inaugura%C3%A7%C3%A3o%20do%20hostel." target="_blank" rel="noopener" class="obras-btn">
-                <i class="fa-brands fa-whatsapp"></i> Fale com a gente
-            </a>
+            <div class="obras-actions">
+                <a href="javascript:history.back()" class="obras-btn obras-btn-voltar">
+                    <i class="fa-solid fa-arrow-left"></i> Voltar
+                </a>
+                <a href="https://wa.me/5511980991685?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20inaugura%C3%A7%C3%A3o%20do%20hostel." target="_blank" rel="noopener" class="obras-btn">
+                    <i class="fa-brands fa-whatsapp"></i> Fale com a gente
+                </a>
+            </div>
         </div>
     </div>
 
