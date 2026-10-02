@@ -118,6 +118,102 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: #0a0704; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #3a2412; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #ff8c1a; }
+
+        /* ===== POPUP DE OBRAS ===== */
+        .obras-overlay {
+            position: fixed; inset: 0; z-index: 100;
+            background: rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center;
+            padding: 5vh 5vw;
+            pointer-events: none;
+        }
+        .obras-card {
+            pointer-events: auto;
+            position: relative;
+            width: 100%; max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: rgba(10, 7, 4, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 2px solid rgba(255,140,26,0.7);
+            border-radius: 1rem;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            box-shadow:
+                0 0 25px rgba(255,140,26,0.6),
+                0 0 60px rgba(179,84,0,0.4),
+                inset 0 0 30px rgba(255,140,26,0.08);
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+        .obras-card h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.75rem;
+        }
+        .obras-card p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #d8c8b8;
+            margin-bottom: 0.75rem;
+        }
+        .obras-card .obras-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .countdown {
+            display: flex; justify-content: center; gap: 0.5rem;
+            margin: 1.5rem 0 1rem;
+            flex-wrap: wrap;
+        }
+        .countdown-item {
+            min-width: 60px;
+            padding: 0.6rem 0.4rem;
+            background: rgba(255,140,26,0.08);
+            border: 1px solid rgba(255,140,26,0.4);
+            border-radius: 0.5rem;
+            box-shadow: 0 0 12px rgba(255,140,26,0.25);
+        }
+        .countdown-num {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #fff;
+            text-shadow: 0 0 6px #ff8c1a, 0 0 14px #ff8c1a, 0 0 22px #b35400;
+            line-height: 1;
+        }
+        .countdown-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #b89a80;
+            margin-top: 0.35rem;
+        }
+        .obras-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(90deg, #ff8c1a, #b35400);
+            color: #1a0e00;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 20px rgba(255,140,26,0.5);
+            transition: all 0.3s;
+        }
+        .obras-btn:hover { box-shadow: 0 0 35px rgba(255,140,26,0.85); transform: scale(1.03); }
+        @media (max-width: 480px) {
+            .obras-card { padding: 1.75rem 1rem; }
+            .obras-card h2 { font-size: 1.1rem; }
+            .countdown-num { font-size: 1.2rem; }
+            .countdown-item { min-width: 50px; padding: 0.5rem 0.3rem; }
+        }
     </style>
 </head>
 <body class="text-gray-200 font-sans antialiased custom-scrollbar min-h-screen">
@@ -268,5 +364,48 @@
             window.open(`https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
         }
     </script>
+
+    <!-- ===== POPUP DE OBRAS (hostel em construção) ===== -->
+    <div class="obras-overlay">
+        <div class="obras-card">
+            <div class="obras-emoji">🚧</div>
+            <h2 class="neon-orange-text">Hostel em Obra</h2>
+            <p>Estamos preparando cada detalhe pra receber você com o carinho que a gente gosta. Em breve abriremos as portas do <strong>666 Pinheiros Hostel</strong> — e vai valer a espera.</p>
+            <p style="font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:#ff8c1a; margin-top:1rem;">Novidades em</p>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item"><div class="countdown-num" id="cd-days">30</div><div class="countdown-label">Dias</div></div>
+                <div class="countdown-item"><div class="countdown-num" id="cd-hours">00</div><div class="countdown-label">Horas</div></div>
+                <div class="countdown-item"><div class="countdown-num" id="cd-min">00</div><div class="countdown-label">Min</div></div>
+                <div class="countdown-item"><div class="countdown-num" id="cd-sec">00</div><div class="countdown-label">Seg</div></div>
+            </div>
+            <a href="https://wa.me/5511980991685?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20inaugura%C3%A7%C3%A3o%20do%20hostel." target="_blank" rel="noopener" class="obras-btn">
+                <i class="fa-brands fa-whatsapp"></i> Fale com a gente
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Contagem regressiva — 30 dias a partir de agora (ajustar data depois se quiser)
+        (function() {
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + 30);
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = targetDate.getTime() - now;
+                if (distance < 0) { return; }
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const min = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const sec = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+                document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('cd-min').textContent = String(min).padStart(2, '0');
+                document.getElementById('cd-sec').textContent = String(sec).padStart(2, '0');
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        })();
+    </script>
+
 </body>
 </html>
