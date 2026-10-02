@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>666 Pinheiros | Hostel, Adega & Bar em Pinheiros, São Paulo</title>
+    <meta name="description" content="O novo cantinho do viajante em Pinheiros. Hostel, adega e bar na Rua Padre Carvalho, 666, São Paulo. Reserve pelo WhatsApp.">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="666 Pinheiros">
+    <link rel="canonical" href="https://bitmonster04.github.io/666hostel/">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:url" content="https://bitmonster04.github.io/666hostel/">
+    <meta property="og:site_name" content="666 Pinheiros">
+    <meta property="og:title" content="666 Pinheiros | Hostel, Adega & Bar em Pinheiros, São Paulo">
+    <meta property="og:description" content="O novo cantinho do viajante em Pinheiros.">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="666 Pinheiros | Hostel, Adega & Bar em Pinheiros, São Paulo">
+    <meta name="twitter:description" content="O novo cantinho do viajante em Pinheiros.">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Hostel",
+      "name": "666 Pinheiros",
+      "description": "Hostel, adega e bar no bairro de Pinheiros, São Paulo.",
+      "url": "https://bitmonster04.github.io/666hostel/",
+      "telephone": "+5511980991685",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Padre Carvalho, 666",
+        "addressLocality": "São Paulo",
+        "addressRegion": "SP",
+        "postalCode": "05427-020",
+        "addressCountry": "BR"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: { DEFAULT: '#ffd700', deep: '#b8960c', glow: '#fff066' },
+                        redneon: '#ff2b3f',
+                        orneon: '#ff8c1a'
+                    },
+                    fontFamily: {
+                        heading: ['Cinzel', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html, body { background: #0a0a0a; }
+
+        .parallax-wrap { position: fixed; inset: -6% -2%; z-index: -2; overflow: hidden; }
+        .parallax-bg {
+            position: absolute; inset: -8%;
+            /* PLACEHOLDER — TODO: trocar por url('assets/bg-home.jpg') quando a foto/símbolo final chegar */
+            background: radial-gradient(circle at 50% 25%, #3a2e00 0%, #0a0a0a 70%);
+            will-change: transform;
+        }
+        .veil { position: fixed; inset: 0; z-index: -1; background: rgba(0,0,0,0.3); pointer-events: none; }
+        .text-panel { background: rgba(0,0,0,0.55); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
+
+        .neon-neu-text {
+            font-family: 'Montserrat', sans-serif; font-weight: 800; color: #fffce8;
+            text-shadow: 0 0 4px #fff, 0 0 10px #ffd700, 0 0 22px #ffd700, 0 0 40px #b8960c, 0 0 70px rgba(184,150,12,0.6);
+            letter-spacing: 0.06em;
+        }
+        .neon-logo-glow {
+            filter: drop-shadow(0 0 6px #fffce8) drop-shadow(0 0 16px #ffd700) drop-shadow(0 0 34px #b8960c) drop-shadow(0 0 60px rgba(184,150,12,0.55));
+        }
+
+        .placeholder-box {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border: 2px dashed rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.5);
+            text-align: center; font-size: 11px; padding: 1rem; gap: 6px;
+        }
+
+        ::selection { background: #ffd700; color: #1a1400; }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0a0a0a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3a2e00; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #ffd700; }
+    </style>
+</head>
+<body class="text-gray-200 font-sans antialiased custom-scrollbar min-h-screen">
+
+    <div class="parallax-wrap"><div class="parallax-bg" id="parallax-bg"></div></div>
+    <div class="veil"></div>
+
+    <!-- NAV -->
+    <header class="sticky top-0 z-50 bg-black/70 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="neon-neu-text text-sm sm:text-base tracking-widest">666 PINHEIROS</a>
+                <nav class="hidden md:flex items-center gap-7 text-xs font-semibold uppercase tracking-widest text-gray-300">
+                    <a href="#" class="text-gold">Início</a>
+                    <a href="hostel/" class="hover:text-orneon transition-colors">Hostel</a>
+                    <a href="bar/" class="hover:text-redneon transition-colors">Bar / Adega</a>
+                    <a href="contato/" class="hover:text-gold transition-colors">Contato</a>
+                </nav>
+                <button onclick="reservar()" class="px-4 py-2 rounded-md bg-gold text-black font-bold text-xs uppercase tracking-wider hover:brightness-90 shadow-[0_0_15px_rgba(255,215,0,0.4)] transition">
+                    <i class="fa-brands fa-whatsapp mr-1"></i> Reservar
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="min-h-[85vh] flex flex-col items-center justify-center text-center px-4 py-16">
+
+        <!-- PLACEHOLDER LOGO: trocar pelo símbolo final da Home quando chegar -->
+        <div class="placeholder-box rounded-xl w-64 sm:w-80 h-40 sm:h-48 mb-8">
+            <i class="fa-solid fa-star text-3xl"></i>
+            <span>Espaço reservado:<br>símbolo final da Home</span>
+        </div>
+
+        <h1 class="font-heading text-3xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight max-w-3xl text-panel px-6 py-4 rounded-xl">
+            O NOVO CANTINHO DO VIAJANTE EM <span class="neon-neu-text">PINHEIROS</span>
+        </h1>
+
+        <p class="text-gray-300 max-w-xl mt-6 text-sm sm:text-base leading-relaxed text-panel px-5 py-3 rounded-lg">
+            Hostel, adega e bar sob o mesmo teto — um refúgio no coração de Pinheiros, São Paulo.
+        </p>
+
+        <button onclick="reservar()" class="mt-8 px-8 py-4 rounded-md bg-gold text-black font-extrabold text-sm uppercase tracking-widest shadow-[0_0_30px_rgba(255,215,0,0.45)] hover:shadow-[0_0_45px_rgba(255,215,0,0.7)] hover:scale-105 transition duration-300">
+            <i class="fa-brands fa-whatsapp mr-2"></i> Fale Conosco
+        </button>
+    </section>
+
+    <!-- DOIS PILARES: Hostel e Bar/Adega -->
+    <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+
+            <a href="hostel/" class="group text-panel rounded-2xl p-8 border border-orneon/25 hover:border-orneon/70 transition flex flex-col items-center text-center">
+                <i class="fa-solid fa-bed text-3xl text-orneon mb-4"></i>
+                <h2 class="font-heading text-xl font-bold text-white mb-2">Hostel</h2>
+                <p class="text-gray-400 text-sm flex-1">Dormitórios e suíte privativa pra descansar bem.</p>
+                <span class="text-orneon text-xs font-bold uppercase tracking-wider mt-4 group-hover:underline">Ver quartos →</span>
+            </a>
+
+            <a href="bar/" class="group text-panel rounded-2xl p-8 border border-redneon/25 hover:border-redneon/70 transition flex flex-col items-center text-center">
+                <i class="fa-solid fa-martini-glass-citrus text-3xl text-redneon mb-4"></i>
+                <h2 class="font-heading text-xl font-bold text-white mb-2">Bar & Adega</h2>
+                <p class="text-gray-400 text-sm flex-1">Drinks, caipirinhas e rótulos selecionados, aberto 24h.</p>
+                <span class="text-redneon text-xs font-bold uppercase tracking-wider mt-4 group-hover:underline">Ver mais →</span>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- CONTATO -->
+    <footer class="py-16 px-4 border-t border-white/10">
+        <div class="max-w-4xl mx-auto text-center text-panel rounded-2xl p-8">
+            <h2 class="font-heading text-xl sm:text-2xl font-bold text-white mb-4">Rua Padre Carvalho, 666 — Pinheiros, São Paulo</h2>
+            <p class="text-gray-400 text-sm mb-6">CEP 05427-020 · Próximo ao Metrô Faria Lima</p>
+            <a href="https://wa.me/5511980991685" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-gold text-black font-extrabold text-sm uppercase tracking-widest shadow-[0_0_25px_rgba(255,215,0,0.4)] hover:shadow-[0_0_40px_rgba(255,215,0,0.65)] transition">
+                <i class="fa-brands fa-whatsapp text-lg"></i> (11) 98099-1685
+            </a>
+            <div class="flex justify-center gap-6 mt-6 text-lg text-gray-400">
+                <a href="https://www.instagram.com/666hostel/" target="_blank" rel="noopener" class="hover:text-gold transition" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:pinheiros666hostel@outlook.com" class="hover:text-gold transition" aria-label="E-mail"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+            <p class="text-center text-xs text-gray-600 mt-8">© 2026 666 Pinheiros. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        const bg = document.getElementById('parallax-bg');
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    bg.style.transform = `translateY(${window.scrollY * 0.12}px)`;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        const WHATS_NUMBER = "5511980991685";
+        function reservar() {
+            const msg = "Olá! Vim pelo site e quero saber mais sobre o 666 Pinheiros.";
+            window.open(`https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+        }
+    </script>
+</body>
+</html>

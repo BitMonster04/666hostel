@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hostel | 666 Pinheiros — Hostel, Adega & Bar</title>
+    <meta name="description" content="Hostel boutique do 666 Pinheiros: dormitórios e suíte privativa na Rua Padre Carvalho, 666, Pinheiros, São Paulo. Reserve pelo WhatsApp.">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="666 Pinheiros">
+    <link rel="canonical" href="https://bitmonster04.github.io/666hostel/hostel/">
+    <meta name="theme-color" content="#0a0704">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:url" content="https://bitmonster04.github.io/666hostel/hostel/">
+    <meta property="og:site_name" content="666 Pinheiros">
+    <meta property="og:title" content="Hostel | 666 Pinheiros — Hostel, Adega & Bar">
+    <meta property="og:description" content="Dormitórios e suíte privativa do 666 Pinheiros, em Pinheiros, São Paulo.">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hostel | 666 Pinheiros — Hostel, Adega & Bar">
+    <meta name="twitter:description" content="Dormitórios e suíte privativa do 666 Pinheiros, em Pinheiros, São Paulo.">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-180.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Hostel",
+      "name": "666 Pinheiros — Hostel",
+      "url": "https://bitmonster04.github.io/666hostel/hostel/",
+      "telephone": "+5511980991685",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Padre Carvalho, 666",
+        "addressLocality": "São Paulo",
+        "addressRegion": "SP",
+        "postalCode": "05427-020",
+        "addressCountry": "BR"
+      },
+      "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "00:00", "closes": "23:59", "description": "Recepção 24 horas" }
+      ]
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        orneon: { DEFAULT: '#ff8c1a', deep: '#b35400', glow: '#ffb366' },
+                        hostelink: { bg: '#0a0704', panel: '#14100a' }
+                    },
+                    fontFamily: {
+                        heading: ['Cinzel', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html, body { background: #0a0704; }
+
+        /* FUNDO COM PARALLAX — TODO: trocar por url('assets/bg-hostel.jpg') quando a foto chegar */
+        .parallax-wrap { position: fixed; inset: -6% -2%; z-index: -2; overflow: hidden; }
+        .parallax-bg {
+            position: absolute; inset: -8%;
+            background: radial-gradient(circle at 50% 30%, #2a1d10 0%, #0a0704 70%);
+            will-change: transform;
+        }
+        .veil { position: fixed; inset: 0; z-index: -1; background: rgba(5, 3, 2, 0.3); pointer-events: none; }
+        .text-panel { background: rgba(5, 3, 2, 0.55); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
+
+        .neon-orange-text {
+            font-family: 'Montserrat', sans-serif; font-weight: 800; color: #fff6ec;
+            text-shadow: 0 0 4px #fff, 0 0 10px #ff8c1a, 0 0 22px #ff8c1a, 0 0 40px #b35400, 0 0 70px rgba(179,84,0,0.6);
+            letter-spacing: 0.06em;
+        }
+        .neon-orange-badge {
+            font-family: 'Montserrat', sans-serif; font-weight: 700; color: #fff0e0;
+            text-shadow: 0 0 3px #fff, 0 0 8px #ff8c1a, 0 0 18px #ff8c1a, 0 0 30px #b35400;
+            letter-spacing: 0.25em;
+        }
+        .neon-logo-glow {
+            filter: drop-shadow(0 0 6px #fff6ec) drop-shadow(0 0 16px #ff8c1a) drop-shadow(0 0 34px #b35400) drop-shadow(0 0 60px rgba(179,84,0,0.55));
+        }
+        @keyframes neonFlickerOrange {
+            0%, 100% { opacity: 1; } 4% { opacity: .82; } 6% { opacity: 1; }
+            7% { opacity: .35; } 8% { opacity: 1; } 92% { opacity: 1; } 93% { opacity: .75; } 94% { opacity: 1; }
+        }
+        .flicker-orange { animation: neonFlickerOrange 5.5s infinite; }
+
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-14px); } }
+        .float-bubble { animation: floatSlow 6s ease-in-out infinite; }
+
+        .bubble-ring { border: 2px solid rgba(255,140,26,0.65); box-shadow: 0 0 18px rgba(255,140,26,0.45), 0 0 40px rgba(179,84,0,0.35); }
+
+        /* PLACEHOLDER: substituir por <img> real quando o arquivo chegar */
+        .placeholder-box {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border: 2px dashed rgba(255,140,26,0.45);
+            background: rgba(255,140,26,0.05);
+            color: rgba(255,200,150,0.6);
+            text-align: center; font-size: 11px; padding: 1rem; gap: 6px;
+        }
+
+        ::selection { background: #ff8c1a; color: #1a0e00; }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0a0704; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3a2412; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #ff8c1a; }
+    </style>
+</head>
+<body class="text-gray-200 font-sans antialiased custom-scrollbar min-h-screen">
+
+    <div class="parallax-wrap"><div class="parallax-bg" id="parallax-bg"></div></div>
+    <div class="veil"></div>
+
+    <!-- NAV -->
+    <header class="sticky top-0 z-50 bg-black/70 backdrop-blur-md border-b border-orneon/20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="../index.html" class="neon-orange-text text-sm sm:text-base tracking-widest">666 PINHEIROS</a>
+                <nav class="hidden md:flex items-center gap-7 text-xs font-semibold uppercase tracking-widest text-gray-300">
+                    <a href="../index.html" class="hover:text-orneon transition-colors">Início</a>
+                    <a href="#" class="text-orneon">Hostel</a>
+                    <a href="../bar/" class="hover:text-orneon transition-colors">Bar / Adega</a>
+                    <a href="../contato/" class="hover:text-orneon transition-colors">Contato</a>
+                </nav>
+                <button onclick="reservar()" class="px-4 py-2 rounded-md bg-orneon text-black font-bold text-xs uppercase tracking-wider hover:brightness-110 shadow-[0_0_15px_rgba(255,140,26,0.5)] transition">
+                    <i class="fa-brands fa-whatsapp mr-1"></i> Reservar
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="min-h-[85vh] flex flex-col items-center justify-center text-center px-4 py-16">
+
+        <!-- PLACEHOLDER LOGO: trocar pelo PNG da cama (transparente) quando chegar -->
+        <div class="placeholder-box rounded-xl w-64 sm:w-80 h-40 sm:h-48 mb-8">
+            <i class="fa-solid fa-bed text-3xl"></i>
+            <span>Espaço reservado:<br>logo do Hostel (cama)</span>
+        </div>
+
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orneon/50 mb-6 flicker-orange">
+            <span class="w-2 h-2 rounded-full bg-orneon"></span>
+            <span class="neon-orange-badge text-xs">RECEPÇÃO 24H</span>
+        </div>
+
+        <h1 class="font-heading text-3xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight max-w-3xl text-panel px-6 py-4 rounded-xl">
+            SEU PORTO SEGURO EM <span class="text-orneon">PINHEIROS</span>
+        </h1>
+
+        <p class="text-gray-300 max-w-xl mt-6 text-sm sm:text-base leading-relaxed text-panel px-5 py-3 rounded-lg">
+            Dormitórios aconchegantes e uma suíte privativa pra quem chega de viagem e quer descansar bem, no coração de Pinheiros.
+        </p>
+
+        <button onclick="reservar()" class="mt-8 px-8 py-4 rounded-md bg-gradient-to-r from-orneon to-orneon-deep text-black font-extrabold text-sm uppercase tracking-widest shadow-[0_0_30px_rgba(255,140,26,0.55)] hover:shadow-[0_0_45px_rgba(255,140,26,0.85)] hover:scale-105 transition duration-300">
+            <i class="fa-brands fa-whatsapp mr-2"></i> Reservar Quarto
+        </button>
+    </section>
+
+    <!-- QUARTOS: bolhas com fotos (placeholders) -->
+    <section class="py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-14 text-panel inline-block px-6 py-3 rounded-lg mx-auto">
+                <span class="text-orneon uppercase tracking-widest text-xs font-bold">Acomodações</span>
+                <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white mt-1">Onde você vai dormir</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 items-center">
+                <div class="flex justify-center">
+                    <div class="float-bubble placeholder-box rounded-full w-56 h-56 sm:w-72 sm:h-72">
+                        <i class="fa-solid fa-bed text-2xl"></i>
+                        <span>Dorm Masculino<br>(foto pendente)</span>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="placeholder-box rounded-full w-56 h-56 sm:w-72 sm:h-72">
+                        <i class="fa-solid fa-bed text-2xl"></i>
+                        <span>Dorm Feminino<br>(foto pendente)</span>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="placeholder-box rounded-full w-56 h-56 sm:w-72 sm:h-72">
+                        <i class="fa-solid fa-heart text-2xl"></i>
+                        <span>Suíte Privativa<br>(foto pendente)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMODIDADES -->
+    <section class="py-16 px-4">
+        <div class="max-w-4xl mx-auto text-panel rounded-2xl p-8 sm:p-10">
+            <div class="text-center mb-10">
+                <span class="text-orneon uppercase tracking-widest text-xs font-bold">O Que Vem Incluso</span>
+                <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white mt-1">Comodidades</h2>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-6">
+                <div class="p-5 rounded-xl border border-orneon/25 bg-black/30 hover:border-orneon/60 transition">
+                    <i class="fa-solid fa-wifi text-orneon text-xl mb-3"></i>
+                    <h3 class="font-heading text-white font-bold mb-1">Wi-Fi Ultrarrápido</h3>
+                    <p class="text-xs text-gray-400">Conexão dedicada em todas as áreas.</p>
+                </div>
+                <div class="p-5 rounded-xl border border-orneon/25 bg-black/30 hover:border-orneon/60 transition">
+                    <i class="fa-solid fa-shield-halved text-orneon text-xl mb-3"></i>
+                    <h3 class="font-heading text-white font-bold mb-1">Segurança 24h</h3>
+                    <p class="text-xs text-gray-400">Portaria e controle eletrônico.</p>
+                </div>
+                <div class="p-5 rounded-xl border border-orneon/25 bg-black/30 hover:border-orneon/60 transition">
+                    <i class="fa-solid fa-utensils text-orneon text-xl mb-3"></i>
+                    <h3 class="font-heading text-white font-bold mb-1">Cozinha Guest</h3>
+                    <p class="text-xs text-gray-400">Equipada para refeições rápidas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTATO -->
+    <footer class="py-16 px-4 border-t border-orneon/15">
+        <div class="max-w-4xl mx-auto text-center text-panel rounded-2xl p-8">
+            <h2 class="font-heading text-xl sm:text-2xl font-bold text-white mb-4">Rua Padre Carvalho, 666 — Pinheiros, São Paulo</h2>
+            <p class="text-gray-400 text-sm mb-6">CEP 05427-020 · Próximo ao Metrô Faria Lima</p>
+            <a href="https://wa.me/5511980991685" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-gradient-to-r from-orneon to-orneon-deep text-black font-extrabold text-sm uppercase tracking-widest shadow-[0_0_25px_rgba(255,140,26,0.5)] hover:shadow-[0_0_40px_rgba(255,140,26,0.8)] transition">
+                <i class="fa-brands fa-whatsapp text-lg"></i> (11) 98099-1685
+            </a>
+            <div class="flex justify-center gap-6 mt-6 text-lg text-gray-400">
+                <a href="https://www.instagram.com/666hostel/" target="_blank" rel="noopener" class="hover:text-orneon transition" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:pinheiros666hostel@outlook.com" class="hover:text-orneon transition" aria-label="E-mail"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+            <p class="text-center text-xs text-gray-600 mt-8">© 2026 666 Pinheiros. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        const bg = document.getElementById('parallax-bg');
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    bg.style.transform = `translateY(${window.scrollY * 0.12}px)`;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        const WHATS_NUMBER = "5511980991685";
+        function reservar() {
+            const msg = "Olá! Gostaria de reservar um quarto no Hostel 666 Pinheiros.";
+            window.open(`https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+        }
+    </script>
+</body>
+</html>
