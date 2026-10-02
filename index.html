@@ -76,7 +76,7 @@
             background: url('assets/Backgroynd_666_pinheiros_4K_2160x3840.png') center/cover no-repeat;
             will-change: transform;
         }
-        .veil { position: fixed; inset: 0; z-index: -1; background: rgba(0,0,0,0.3); pointer-events: none; }
+        .veil { position: fixed; inset: 0; z-index: -1; background: rgba(0,0,0,0.8); pointer-events: none; }
         .text-panel { background: rgba(0,0,0,0.55); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
 
         .neon-neu-text {
@@ -188,7 +188,7 @@
         window.addEventListener('scroll', () => {
             if (!ticking) {
                 requestAnimationFrame(() => {
-                    bg.style.transform = `translateY(${window.scrollY * 0.12}px)`;
+                    bg.style.transform = `translateY(${window.scrollY * 0.05}px)`;
                     ticking = false;
                 });
                 ticking = true;
