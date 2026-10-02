@@ -130,15 +130,17 @@
         .obras-card {
             pointer-events: auto;
             position: relative;
-            width: 100%; max-width: 560px;
-            max-height: 90vh;
+            width: 100%; max-width: 520px;
+            max-height: 92vh;
             overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
             background: rgba(10, 7, 4, 0.92);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 2px solid rgba(255,140,26,0.7);
             border-radius: 1rem;
-            padding: 2.5rem 1.5rem;
+            padding: 1.5rem 1.25rem;
             text-align: center;
             box-shadow:
                 0 0 25px rgba(255,140,26,0.6),
@@ -146,32 +148,33 @@
                 inset 0 0 30px rgba(255,140,26,0.08);
             animation: floatSlow 6s ease-in-out infinite;
         }
+        .obras-card::-webkit-scrollbar { display: none; }
         .obras-card h2 {
             font-family: 'Montserrat', sans-serif;
             font-weight: 800;
-            font-size: 1.4rem;
+            font-size: 1.15rem;
             text-transform: uppercase;
             letter-spacing: 0.15em;
             margin-bottom: 0.75rem;
         }
         .obras-card p {
-            font-size: 0.9rem;
-            line-height: 1.6;
+            font-size: 0.82rem;
+            line-height: 1.5;
             color: #d8c8b8;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
         .obras-card .obras-emoji {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
         }
         .countdown {
-            display: flex; justify-content: center; gap: 0.5rem;
-            margin: 1.5rem 0 1rem;
+            display: flex; justify-content: center; gap: 0.4rem;
+            margin: 0.9rem 0 0.6rem;
             flex-wrap: wrap;
         }
         .countdown-item {
-            min-width: 60px;
-            padding: 0.6rem 0.4rem;
+            min-width: 52px;
+            padding: 0.4rem 0.35rem;
             background: rgba(255,140,26,0.08);
             border: 1px solid rgba(255,140,26,0.4);
             border-radius: 0.5rem;
@@ -180,7 +183,7 @@
         .countdown-num {
             font-family: 'Montserrat', sans-serif;
             font-weight: 800;
-            font-size: 1.5rem;
+            font-size: 1.15rem;
             color: #fff;
             text-shadow: 0 0 6px #ff8c1a, 0 0 14px #ff8c1a, 0 0 22px #b35400;
             line-height: 1;
@@ -209,8 +212,8 @@
         }
         .obras-btn:hover { box-shadow: 0 0 35px rgba(255,140,26,0.85); transform: scale(1.03); }
         .obras-actions {
-            display: flex; flex-wrap: wrap; gap: 0.75rem;
-            justify-content: center; margin-top: 1rem;
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            justify-content: center; margin-top: 0.75rem;
         }
         .obras-actions .obras-btn {
             flex: 1 1 0;
@@ -393,7 +396,7 @@
     <!-- ===== POPUP DE OBRAS (hostel em construção) ===== -->
     <div class="obras-overlay">
         <div class="obras-card">
-            <div class="obras-emoji"><img src="../assets/logo-hostel.png" alt="666 Hostel" class="neon-logo-glow" style="max-width: 220px; width: 60%; height: auto; margin: 0 auto;"></div>
+            <div class="obras-emoji" style="margin-bottom: 0.25rem;"><img src="../assets/logo-hostel.png" alt="666 Hostel" class="neon-logo-glow" style="max-width: 160px; width: 50%; height: auto; margin: 0 auto 0.5rem;"></div>
             <h2 class="neon-orange-text">Quase prontos para receber você</h2>
             <p>O <strong>666 Pinheiros Hostel</strong> está em fase final de preparação.</p>
             <p>Estamos cuidando dos últimos detalhes para criar um espaço acolhedor, autêntico e cheio de personalidade.</p>
@@ -417,10 +420,9 @@
     </div>
 
     <script>
-        // Contagem regressiva — 30 dias a partir de agora (ajustar data depois se quiser)
+        // Contagem regressiva — data fixa de inauguração: 1 de novembro de 2026
         (function() {
-            const targetDate = new Date();
-            targetDate.setDate(targetDate.getDate() + 30);
+            const targetDate = new Date('2026-11-01T00:00:00-03:00');
             function updateCountdown() {
                 const now = new Date().getTime();
                 const distance = targetDate.getTime() - now;
