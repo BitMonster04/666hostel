@@ -69,7 +69,13 @@
     <style>
         html { background: #0a0a0a; } body { background: transparent; }
 
-        .parallax-wrap { position: fixed; inset: -6% -2%; z-index: -2; overflow: hidden; }
+        .parallax-wrap {
+            position: fixed; left: -2%; right: -2%;
+            /* Keep the image crop stable when mobile browser toolbars expand/collapse. */
+            top: -6vh; height: 112vh;
+            top: -6lvh; height: 112lvh;
+            z-index: -2; overflow: hidden;
+        }
         .parallax-bg {
             position: absolute; inset: -8%;
             /* PLACEHOLDER — TODO: trocar por url('assets/bg-home.jpg') quando a foto/símbolo final chegar */
@@ -175,7 +181,7 @@
                 <i class="fa-brands fa-whatsapp text-lg"></i> (11) 98099-1685
             </a>
             <div class="flex justify-center gap-6 mt-6 text-lg text-gray-400">
-                <a href="https://www.instagram.com/666hostel/" target="_blank" rel="noopener" class="hover:text-gold transition" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.instagram.com/666pinheiroshostel/" target="_blank" rel="noopener" class="hover:text-gold transition" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                 <a href="mailto:pinheiros666hostel@outlook.com" class="hover:text-gold transition" aria-label="E-mail"><i class="fa-solid fa-envelope"></i></a>
             </div>
             <p class="text-center text-xs text-gray-600 mt-8">© 2026 666 Pinheiros. Todos os direitos reservados.</p>
