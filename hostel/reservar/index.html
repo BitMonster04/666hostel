@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0704">
+<meta name="description" content="Escolha as datas e a acomodação no 666 Pinheiros Hostel e reserve pelo WhatsApp.">
+<title>Reservar | 666 Pinheiros Hostel</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{colors:{orneon:{DEFAULT:'#ff8c1a',deep:'#b35400',glow:'#ffb366'}},fontFamily:{heading:['Cinzel','serif'],sans:['Montserrat','sans-serif']}}}}</script>
+<style>
+html,body{background:#0a0704}body{background-image:radial-gradient(circle at 50% 0%,#2a1d10 0%,#0a0704 60%);background-repeat:no-repeat}
+.painel{background:rgba(20,16,10,.85);border:1px solid rgba(255,140,26,.25);border-radius:1rem}
+.campo{width:100%;background:#0a0704;border:1px solid rgba(255,140,26,.35);border-radius:.5rem;padding:.7rem .8rem;color:#f3ebe0;font-size:16px;color-scheme:dark}
+.campo:focus{outline:2px solid #ff8c1a;outline-offset:1px}
+.rotulo{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d8c8b8;margin-bottom:.35rem}
+.btn{display:inline-block;padding:.9rem 1.5rem;border-radius:.5rem;background:linear-gradient(90deg,#ff8c1a,#b35400);color:#1a0e00;font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.12em;text-align:center;box-shadow:0 0 20px rgba(255,140,26,.45)}
+.btn-sec{background:transparent;border:2px solid rgba(255,140,26,.7);color:#ff8c1a;box-shadow:none}
+.opcao{display:block;width:100%;text-align:left;border:1px solid rgba(255,140,26,.3);border-radius:.75rem;padding:1rem;background:rgba(0,0,0,.3);transition:border-color .15s}
+.opcao:hover{border-color:#ff8c1a}.opcao[aria-pressed=true]{border-color:#ff8c1a;box-shadow:0 0 18px rgba(255,140,26,.35)}
+dialog#aviso{background:#14100a;color:#efe6da;border:2px solid rgba(255,140,26,.7);border-radius:1rem;padding:1.5rem;width:min(92vw,440px);box-shadow:0 0 40px rgba(255,140,26,.45);margin:auto}
+dialog::backdrop{background:rgba(0,0,0,.7)}
+</style>
+</head>
+<body class="text-gray-200 font-sans antialiased min-h-screen">
+<header class="border-b border-orneon/20 bg-black/70">
+  <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="../" class="font-extrabold tracking-widest text-sm text-orange-50" style="text-shadow:0 0 8px #ff8c1a,0 0 20px #ff8c1a">666 PINHEIROS</a>
+    <a href="../" class="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-orneon">← Hostel</a>
+  </div>
+</header>
+<main class="max-w-3xl mx-auto px-4 py-8">
+  <h1 class="font-heading text-2xl sm:text-3xl font-bold text-white">Reserve sua estadia</h1>
+  <p class="text-sm text-gray-400 mt-1 mb-6">Escolha os dias e a acomodação para ver o valor. Recepção 24 horas.</p>
+  <form id="form" class="space-y-6" novalidate>
+    <section class="painel p-5">
+      <h2 class="font-heading text-lg text-white font-bold mb-4">1. Quando você vem?</h2>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="min-w-0"><label class="rotulo" for="checkin">Entrada</label><input class="campo" type="date" id="checkin"></div>
+        <div class="min-w-0"><label class="rotulo" for="checkout">Saída</label><input class="campo" type="date" id="checkout"></div>
+      </div>
+      <div class="mt-3"><label class="rotulo" for="chegada">Horário previsto de chegada</label><select class="campo" id="chegada"></select></div>
+      <p id="erroDatas" role="alert" class="text-sm text-red-400 mt-2"></p>
+    </section>
+    <section class="painel p-5">
+      <h2 class="font-heading text-lg text-white font-bold mb-4">2. Onde você quer dormir?</h2>
+      <div id="opcoes" class="space-y-3"></div>
+      <div class="mt-4"><label class="rotulo" for="quantidade" id="rotuloQtd"></label><select class="campo" id="quantidade"></select></div>
+    </section>
+    <section class="painel p-5" aria-live="polite">
+      <h2 class="font-heading text-lg text-white font-bold mb-3">3. Sua reserva</h2>
+      <p id="resumo" class="text-sm text-gray-300"></p>
+      <div id="linhaTotal" class="flex justify-between items-baseline mt-3 pt-3 border-t border-orneon/20"><span class="font-bold text-white">Valor estimado</span><span id="total" class="text-xl font-extrabold text-orneon"></span></div>
+      <p id="erroForm" role="alert" class="text-sm text-red-400 mt-3"></p>
+      <button class="btn w-full mt-4" type="submit">Reservar</button>
+    </section>
+  </form>
+</main>
+<dialog id="aviso" aria-labelledby="avisoTitulo">
+  <h2 id="avisoTitulo" class="font-heading text-xl font-bold text-white mb-2">Reservas pelo WhatsApp</h2>
+  <p class="text-sm text-gray-300">Por enquanto, as reservas estão disponíveis apenas pelo WhatsApp. Em breve, você também vai poder reservar aqui pelo site.</p>
+  <p class="text-sm text-gray-300 mt-2">Já deixamos sua mensagem pronta com o que você escolheu.</p>
+  <div class="flex flex-col gap-3 mt-5">
+    <a id="whats" class="btn" target="_blank" rel="noopener">Reservar pelo WhatsApp</a>
+    <button id="fechar" class="btn btn-sec" type="button">Voltar</button>
+  </div>
+</dialog>
+<script>
+// Tabela informada pelo hostel: valor da cama por diária.
+const PRIMEIRA = 100, DEMAIS = 85, ESTADIA_LONGA = 5, WHATSAPP = '5511980991685';
+const ACOMODACOES = [
+  { id: 'dorm-masc', nome: 'Dormitório Masculino', tipo: 'cama', descricao: 'Cama em dormitório compartilhado.' },
+  { id: 'dorm-fem', nome: 'Dormitório Feminino', tipo: 'cama', descricao: 'Cama em dormitório compartilhado.' },
+  { id: 'suite', nome: 'Suíte Privativa de Casal', tipo: 'quarto', descricao: 'Quarto privativo para até 2 pessoas.' },
+];
+const el = (id) => document.getElementById(id);
+const brl = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const dataBR = (s) => s.split('-').reverse().join('/');
+const somaDias = (s, n) => new Date(Date.parse(s + 'T00:00:00Z') + n * 864e5).toISOString().slice(0, 10);
+const noites = (a, b) => Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 864e5);
+const hoje = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
+const plural = (n, s, p) => `${n} ${n === 1 ? s : p}`;
+const valorCama = (n) => (n >= ESTADIA_LONGA ? n * DEMAIS : PRIMEIRA + (n - 1) * DEMAIS);
+let atual = ACOMODACOES[0];
+
+function opcoes(select, lista) {
+  select.replaceChildren(...lista.map(([v, t]) => { const o = document.createElement('option'); o.value = v; o.textContent = t; return o; }));
+}
+function pintarOpcoes() {
+  el('opcoes').replaceChildren(...ACOMODACOES.map((a) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'opcao'; b.setAttribute('aria-pressed', String(a === atual));
+    const nome = document.createElement('p'); nome.className = 'font-bold text-white'; nome.textContent = a.nome;
+    const desc = document.createElement('p'); desc.className = 'text-xs text-gray-400 mt-1'; desc.textContent = a.descricao;
+    const preco = document.createElement('p'); preco.className = 'text-xs text-orneon font-semibold mt-1';
+    preco.textContent = a.tipo === 'cama' ? `${brl(PRIMEIRA)} a primeira diária, ${brl(DEMAIS)} as demais. A partir de ${ESTADIA_LONGA} diárias, ${brl(DEMAIS)} cada.` : 'Valor pelo WhatsApp.';
+    b.append(nome, desc, preco);
+    b.onclick = () => { atual = a; prepararQtd(); pintarOpcoes(); atualizar(); };
+    return b;
+  }));
+}
+function prepararQtd() {
+  const camas = atual.tipo === 'cama';
+  el('rotuloQtd').textContent = camas ? 'Quantas camas?' : 'Quantas pessoas?';
+  opcoes(el('quantidade'), Array.from({ length: camas ? 8 : 2 }, (_, i) => [i + 1, camas ? plural(i + 1, 'cama', 'camas') : plural(i + 1, 'pessoa', 'pessoas')]));
+  if (!camas) el('quantidade').value = '2';
+}
+function escolha() {
+  const ci = el('checkin').value, co = el('checkout').value;
+  const q = Number(el('quantidade').value);
+  const n = ci && co && co > ci ? noites(ci, co) : 0;
+  return { ci, co, q, n, valor: n && atual.tipo === 'cama' ? valorCama(n) * q : null };
+}
+function atualizar() {
+  const { ci, co, q, n, valor } = escolha();
+  el('erroDatas').textContent = ci && co && co <= ci ? 'A saída precisa ser depois da entrada.' : '';
+  el('erroForm').textContent = '';
+  if (ci) el('checkout').min = somaDias(ci, 1);
+  const qtd = atual.tipo === 'cama' ? plural(q, 'cama', 'camas') : plural(q, 'pessoa', 'pessoas');
+  el('resumo').textContent = n ? `${atual.nome}, ${qtd}. De ${dataBR(ci)} a ${dataBR(co)} (${plural(n, 'diária', 'diárias')}).` : 'Escolha as datas de entrada e saída para ver o resumo.';
+  el('linhaTotal').classList.toggle('hidden', !n);
+  el('total').textContent = valor !== null ? brl(valor) : 'Pelo WhatsApp';
+}
+function mensagem() {
+  const { ci, co, q, n, valor } = escolha();
+  const qtd = atual.tipo === 'cama' ? plural(q, 'cama', 'camas') : plural(q, 'pessoa', 'pessoas');
+  const linhas = ['Olá! Quero reservar no Hostel 666 Pinheiros:', `${atual.nome}, ${qtd}`, `Entrada: ${dataBR(ci)}`, `Saída: ${dataBR(co)} (${plural(n, 'diária', 'diárias')})`];
+  if (el('chegada').value) linhas.push(`Chegada prevista: ${el('chegada').value}`);
+  if (valor !== null) linhas.push(`Valor estimado: ${brl(valor)}`);
+  return linhas.join('\n');
+}
+el('checkin').min = hoje; el('checkout').min = somaDias(hoje, 1);
+opcoes(el('chegada'), [['', 'Ainda não sei'], ...Array.from({ length: 24 }, (_, h) => { const t = String(h).padStart(2, '0') + ':00'; return [t, t]; })]);
+['checkin', 'checkout', 'chegada', 'quantidade'].forEach((id) => el(id).addEventListener('change', atualizar));
+el('form').addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  const { ci, co, n } = escolha();
+  if (!ci || !co) { el('erroForm').textContent = 'Escolha as datas de entrada e saída.'; return el(ci ? 'checkout' : 'checkin').focus(); }
+  if (ci < hoje) { el('erroForm').textContent = 'A entrada não pode ser no passado.'; return el('checkin').focus(); }
+  if (!n) { el('erroForm').textContent = 'A saída precisa ser depois da entrada.'; return el('checkout').focus(); }
+  el('whats').href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensagem())}`;
+  el('aviso').showModal();
+});
+el('fechar').onclick = () => el('aviso').close();
+prepararQtd(); pintarOpcoes(); atualizar();
+</script>
+</body>
+</html>

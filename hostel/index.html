@@ -260,7 +260,7 @@
                     <a href="../bar/" class="hover:text-orneon transition-colors">Bar / Adega</a>
                 </nav>
                 <button onclick="reservar()" class="px-4 py-2 rounded-md bg-orneon text-black font-bold text-xs uppercase tracking-wider hover:brightness-110 shadow-[0_0_15px_rgba(255,140,26,0.5)] transition">
-                    <i class="fa-brands fa-whatsapp mr-1"></i> Reservar
+                    <i class="fa-solid fa-calendar-check mr-1"></i> Reservar
                 </button>
             </div>
         </div>
@@ -294,7 +294,7 @@
         </p>
 
         <button onclick="reservar()" class="mt-8 px-8 py-4 rounded-md bg-gradient-to-r from-orneon to-orneon-deep text-black font-extrabold text-sm uppercase tracking-widest shadow-[0_0_30px_rgba(255,140,26,0.55)] hover:shadow-[0_0_45px_rgba(255,140,26,0.85)] hover:scale-105 transition duration-300">
-            <i class="fa-brands fa-whatsapp mr-2"></i> Reservar Quarto
+            <i class="fa-solid fa-calendar-check mr-2"></i> Reservar Quarto
         </button>
     </section>
 
@@ -387,59 +387,7 @@
             }
         });
 
-        const WHATS_NUMBER = "5511980991685";
-        function reservar() {
-            const msg = "Olá! Gostaria de reservar um quarto no Hostel 666 Pinheiros.";
-            window.open(`https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
-        }
-    </script>
-
-    <!-- ===== POPUP DE OBRAS (hostel em construção) ===== -->
-    <div class="obras-overlay">
-        <div class="obras-card">
-            <div class="obras-emoji" style="margin-bottom: 0.25rem;"><img src="../assets/logo-hostel.webp" alt="666 Hostel" class="neon-logo-glow" style="max-width: 160px; width: 50%; height: auto; margin: 0 auto 0.5rem;"></div>
-            <h2 class="neon-orange-text">Quase prontos para receber você</h2>
-            <p>O <strong>666 Pinheiros Hostel</strong> está em fase final de preparação.</p>
-            <p>Estamos cuidando dos últimos detalhes para criar um espaço acolhedor, autêntico e cheio de personalidade.</p>
-            <p>Em breve, abriremos nossas portas.</p>
-            <p style="font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:#ff8c1a; margin-top:1rem;">Novidades em breve</p>
-            <div class="countdown" id="countdown">
-                <div class="countdown-item"><div class="countdown-num" id="cd-days">30</div><div class="countdown-label">Dias</div></div>
-                <div class="countdown-item"><div class="countdown-num" id="cd-hours">00</div><div class="countdown-label">Horas</div></div>
-                <div class="countdown-item"><div class="countdown-num" id="cd-min">00</div><div class="countdown-label">Min</div></div>
-                <div class="countdown-item"><div class="countdown-num" id="cd-sec">00</div><div class="countdown-label">Seg</div></div>
-            </div>
-            <div class="obras-actions">
-                <a href="../" class="obras-btn obras-btn-voltar">
-                    <i class="fa-solid fa-arrow-left"></i> Voltar
-                </a>
-                <a href="https://wa.me/5511980991685?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20inaugura%C3%A7%C3%A3o%20do%20hostel." target="_blank" rel="noopener" class="obras-btn">
-                    <i class="fa-brands fa-whatsapp"></i> Fale com a gente
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Contagem regressiva — data fixa de inauguração: 1 de novembro de 2026
-        (function() {
-            const targetDate = new Date('2026-11-01T00:00:00-03:00');
-            function updateCountdown() {
-                const now = new Date().getTime();
-                const distance = targetDate.getTime() - now;
-                if (distance < 0) { return; }
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const min = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const sec = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
-                document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
-                document.getElementById('cd-min').textContent = String(min).padStart(2, '0');
-                document.getElementById('cd-sec').textContent = String(sec).padStart(2, '0');
-            }
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
-        })();
+        function reservar() { location.href = "reservar/"; }
     </script>
 
 </body>
