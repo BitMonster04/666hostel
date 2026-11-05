@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
 <head>
+    <script>
+        // Endereço limpo: quem chega por /index.html (favorito, histórico) vê só o domínio
+        if (location.pathname.endsWith('/index.html')) history.replaceState(null, '', location.pathname.slice(0, -10) + location.search + location.hash);
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
