@@ -73,8 +73,8 @@ dialog::backdrop{background:rgba(0,0,0,.7)}
   </div>
 </dialog>
 <script>
-// Tabela informada pelo hostel: valor da cama por diária.
-const PRIMEIRA = 100, DEMAIS = 85, ESTADIA_LONGA = 5, WHATSAPP = '5511980991685';
+// Tabela informada pelo hostel: valor da cama e da suíte (quarto inteiro) por diária.
+const PRIMEIRA = 100, DEMAIS = 85, ESTADIA_LONGA = 5, SUITE_PRIMEIRA = 250, SUITE_DEMAIS = 200, WHATSAPP = '5511980991685';
 const ACOMODACOES = [
   { id: 'dorm-masc', nome: 'Dormitório Masculino', tipo: 'cama', descricao: 'Cama em dormitório compartilhado.' },
   { id: 'dorm-fem', nome: 'Dormitório Feminino', tipo: 'cama', descricao: 'Cama em dormitório compartilhado.' },
@@ -100,7 +100,7 @@ function pintarOpcoes() {
     const nome = document.createElement('p'); nome.className = 'font-bold text-white'; nome.textContent = a.nome;
     const desc = document.createElement('p'); desc.className = 'text-xs text-gray-400 mt-1'; desc.textContent = a.descricao;
     const preco = document.createElement('p'); preco.className = 'text-xs text-orneon font-semibold mt-1';
-    preco.textContent = a.tipo === 'cama' ? `${brl(PRIMEIRA)} a primeira diária, ${brl(DEMAIS)} as demais. A partir de ${ESTADIA_LONGA} diárias, ${brl(DEMAIS)} cada.` : 'Valor pelo WhatsApp.';
+    preco.textContent = a.tipo === 'cama' ? `${brl(PRIMEIRA)} a primeira diária, ${brl(DEMAIS)} as demais. A partir de ${ESTADIA_LONGA} diárias, ${brl(DEMAIS)} cada.` : `${brl(SUITE_PRIMEIRA)} a primeira diária, ${brl(SUITE_DEMAIS)} as demais.`;
     b.append(nome, desc, preco);
     b.onclick = () => { atual = a; prepararQtd(); pintarOpcoes(); atualizar(); };
     return b;
@@ -116,7 +116,8 @@ function escolha() {
   const ci = el('checkin').value, co = el('checkout').value;
   const q = Number(el('quantidade').value);
   const n = ci && co && co > ci ? noites(ci, co) : 0;
-  return { ci, co, q, n, valor: n && atual.tipo === 'cama' ? valorCama(n) * q : null };
+  const valor = !n ? null : atual.tipo === 'cama' ? valorCama(n) * q : SUITE_PRIMEIRA + (n - 1) * SUITE_DEMAIS;
+  return { ci, co, q, n, valor };
 }
 function atualizar() {
   const { ci, co, q, n, valor } = escolha();
@@ -126,7 +127,7 @@ function atualizar() {
   const qtd = atual.tipo === 'cama' ? plural(q, 'cama', 'camas') : plural(q, 'pessoa', 'pessoas');
   el('resumo').textContent = n ? `${atual.nome}, ${qtd}. De ${dataBR(ci)} a ${dataBR(co)} (${plural(n, 'diária', 'diárias')}).` : 'Escolha as datas de entrada e saída para ver o resumo.';
   el('linhaTotal').classList.toggle('hidden', !n);
-  el('total').textContent = valor !== null ? brl(valor) : 'Pelo WhatsApp';
+  el('total').textContent = valor !== null ? brl(valor) : '';
 }
 function mensagem() {
   const { ci, co, q, n, valor } = escolha();
