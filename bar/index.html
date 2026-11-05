@@ -144,6 +144,58 @@
             box-shadow: 0 0 18px rgba(255,43,63,0.45), 0 0 40px rgba(140,0,20,0.35);
         }
 
+        /* FILA DE BOLHAS: arrasta com o dedo; no computador, cursor nos cantos da fila */
+        .bubble-row {
+            --bubble: clamp(220px, 68vw, 320px);
+            display: flex;
+            gap: clamp(20px, 3vw, 40px);
+            overflow-x: auto;
+            padding: 32px clamp(24px, 4vw, 64px) 40px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .bubble-row::-webkit-scrollbar { display: none; }
+        .bubble-row:focus-visible { outline: 2px solid #ff2b3f; outline-offset: -2px; }
+        .bubble-item { flex: 0 0 var(--bubble); }
+        .bubble-item .float-bubble { display: block; border-radius: 9999px; overflow: hidden; }
+        .bubble-item:nth-child(3n+2) .float-bubble { animation-delay: -2s; animation-duration: 7s; }
+        .bubble-item:nth-child(3n) .float-bubble { animation-delay: -4s; animation-duration: 6.5s; }
+        .bubble-item img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+        /* no celular a primeira foto começa centralizada e a fila encaixa ao soltar */
+        @media (pointer: coarse) {
+            .bubble-row { scroll-snap-type: x proximity; padding-inline: calc(50% - var(--bubble) / 2); }
+            .bubble-item { scroll-snap-align: center; }
+        }
+        .bubble-hint {
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 56px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .25s;
+        }
+        .bubble-hint::before {
+            content: '';
+            width: 16px; height: 16px;
+            border-top: 3px solid #ff6b7a;
+            border-right: 3px solid #ff6b7a;
+            filter: drop-shadow(0 0 6px #ff2b3f);
+        }
+        .bubble-hint-left { left: 0; }
+        .bubble-hint-left::before { transform: rotate(-135deg); }
+        .bubble-hint-right { right: 0; }
+        .bubble-hint-right::before { transform: rotate(45deg); }
+        .bubble-hint.is-on { opacity: 1; }
+        @media (hover: hover) and (pointer: fine) {
+            .bubble-hint { display: flex; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .float-bubble { animation: none; }
+        }
+
         ::selection { background: #ff2b3f; color: #fff; }
         .custom-scrollbar::-webkit-scrollbar { width: 8px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #0a0506; }
@@ -211,33 +263,53 @@
                 <span class="text-redneon uppercase tracking-widest text-xs font-bold">O Ambiente</span>
                 <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white mt-1">Sente, bebe, aproveita</h2>
             </div>
+        </div>
 
-            <div class="grid md:grid-cols-3 gap-8 items-center">
-                <div class="flex justify-center">
-                    <div class="float-bubble">
-                        <picture>
-                            <img src="../assets/bubble-drink.webp" alt="Gin tônica Beefeater servido no bar do 666 Pinheiros" width="320" height="320" loading="lazy" decoding="async" class="w-full aspect-square rounded-full object-cover bubble-ring">
-                        </picture>
-                    </div>
+        <div class="relative -mx-4" id="bubble-gallery">
+            <ul class="bubble-row" id="bubble-row" tabindex="0" aria-label="Fotos do bar. Use as setas do teclado para ver mais.">
+            <li class="bubble-item">
+                <div class="float-bubble bubble-ring">
+                    <img src="../assets/bubble-drink.webp" alt="Gin tônica Beefeater servido no bar do 666 Pinheiros" width="320" height="320" loading="lazy" decoding="async" class="hover:scale-105 transition duration-500">
                 </div>
-
-                <div class="flex justify-center">
-                    <div class="rounded-full overflow-hidden bubble-ring">
-                        <picture>
-                            <img src="../assets/bubble-salao.webp" alt="Salão interno do bar do 666 Pinheiros, com mesas e iluminação neon" width="1280" height="720" loading="lazy" decoding="async" class="w-full aspect-square object-cover rounded-full hover:scale-105 transition duration-500">
-                        </picture>
-                    </div>
+            </li>
+            <li class="bubble-item">
+                <div class="float-bubble bubble-ring">
+                    <img src="../assets/bubble-salao.webp" alt="Salão interno do bar do 666 Pinheiros, com mesas e iluminação neon" width="320" height="320" loading="lazy" decoding="async" class="hover:scale-105 transition duration-500">
                 </div>
-
-                <div class="flex justify-center">
-                    <div class="rounded-full overflow-hidden bubble-ring">
-                        <picture>
-                            <img src="../assets/bubble-selfie.webp" alt="Clientes reunidos no bar do 666 Pinheiros" width="720" height="720" loading="lazy" decoding="async" class="w-full aspect-square object-cover rounded-full hover:scale-105 transition duration-500">
-                        </picture>
-                    </div>
+            </li>
+            <li class="bubble-item">
+                <div class="float-bubble bubble-ring">
+                    <img src="../assets/bubble-selfie.webp" alt="Clientes reunidos no bar do 666 Pinheiros" width="320" height="320" loading="lazy" decoding="async" class="hover:scale-105 transition duration-500">
                 </div>
-            </div>
-
+            </li>
+            <li class="bubble-item">
+                <div class="float-bubble bubble-ring">
+                    <img src="../assets/bubble-skatistas.webp" alt="Dupla de skatistas com a prancha no bar do 666 Pinheiros" width="320" height="320" loading="lazy" decoding="async" class="hover:scale-105 transition duration-500">
+                </div>
+            </li>
+            <li class="bubble-item">
+                <div class="float-bubble bubble-ring">
+                    <img src="../assets/bubble-cerveja.webp" alt="Caneca de chope e lata de cerveja gelada na mesa do bar, com a rua molhada ao fundo" width="320" height="320" loading="lazy" decoding="async" class="hover:scale-105 transition duration-500">
+                </div>
+            </li>
+            <li class="bubble-item">
+                <div class="float-bubble bubble-ring">
+                    <img src="../assets/bubble-amigos.webp" alt="Três amigos sorrindo no salão colorido do bar do 666 Pinheiros" width="320" height="320" loading="lazy" decoding="async" class="hover:scale-105 transition duration-500">
+                </div>
+            </li>
+            <li class="bubble-item">
+                <div class="float-bubble bubble-ring">
+                    <img src="../assets/bubble-coquetel.webp" alt="Coquetel com gin Beefeater erguido diante de um letreiro neon" width="320" height="320" loading="lazy" decoding="async" class="hover:scale-105 transition duration-500">
+                </div>
+            </li>
+            <li class="bubble-item">
+                <div class="float-bubble bubble-ring">
+                    <img src="../assets/bubble-festa.webp" alt="Amigos fantasiados tirando selfie em noite de festa no 666 Pinheiros" width="320" height="320" loading="lazy" decoding="async" class="hover:scale-105 transition duration-500">
+                </div>
+            </li>
+            </ul>
+            <span class="bubble-hint bubble-hint-left" id="bubble-hint-left" aria-hidden="true"></span>
+            <span class="bubble-hint bubble-hint-right" id="bubble-hint-right" aria-hidden="true"></span>
         </div>
     </section>
 
@@ -303,6 +375,55 @@
                 ticking = true;
             }
         });
+
+        // Fila de bolhas: no computador, o cursor nos cantos da fila empurra as fotos
+        (() => {
+            const row = document.getElementById('bubble-row');
+            const hintLeft = document.getElementById('bubble-hint-left');
+            const hintRight = document.getElementById('bubble-hint-right');
+            const MAX_SPEED = 900; // px por segundo, com o cursor colado no canto
+
+            function updateHints() {
+                const max = row.scrollWidth - row.clientWidth;
+                hintLeft.classList.toggle('is-on', row.scrollLeft > 1);
+                hintRight.classList.toggle('is-on', row.scrollLeft < max - 1);
+            }
+            row.addEventListener('scroll', updateHints, { passive: true });
+            window.addEventListener('resize', updateHints);
+            updateHints();
+
+            if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+            let target = 0, speed = 0, pos = 0, last = 0, raf = 0;
+
+            function step(now) {
+                const dt = Math.min((now - last) / 1000, 0.05);
+                last = now;
+                speed += (target - speed) * Math.min(dt * 8, 1); // arranca e freia suave
+                if (!target && Math.abs(speed) < 4) { speed = 0; raf = 0; return; }
+                pos += speed * dt;
+                const max = row.scrollWidth - row.clientWidth;
+                pos = Math.max(0, Math.min(max, pos));
+                row.scrollLeft = pos;
+                raf = requestAnimationFrame(step);
+            }
+
+            row.addEventListener('mousemove', (e) => {
+                const rect = row.getBoundingClientRect();
+                const zone = Math.max(100, rect.width * 0.18);
+                const x = e.clientX - rect.left;
+                let t = 0;
+                if (x < zone) t = -(zone - x) / zone;
+                else if (x > rect.width - zone) t = (x - (rect.width - zone)) / zone;
+                target = Math.sign(t) * t * t * MAX_SPEED;
+                if (target && !raf) {
+                    pos = row.scrollLeft;
+                    last = performance.now();
+                    raf = requestAnimationFrame(step);
+                }
+            });
+            row.addEventListener('mouseleave', () => { target = 0; });
+        })();
 
         const WHATS_NUMBER = "5511980991685";
         function reservar() {
