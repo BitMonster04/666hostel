@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0704">
+<title>Sua reserva | 666 Pinheiros Hostel</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{colors:{orneon:{DEFAULT:'#ff8c1a',deep:'#b35400',glow:'#ffb366'}},fontFamily:{heading:['Cinzel','serif'],sans:['Montserrat','sans-serif']}}}}</script>
+<style>
+html,body{background:#0a0704}body{background-image:radial-gradient(circle at 50% 0%,#2a1d10 0%,#0a0704 60%);background-repeat:no-repeat}
+.painel{background:rgba(20,16,10,.85);border:1px solid rgba(255,140,26,.25);border-radius:1rem}
+.campo{width:100%;background:#0a0704;border:1px solid rgba(255,140,26,.35);border-radius:.5rem;padding:.7rem .8rem;color:#f3ebe0;font-size:16px;color-scheme:dark}
+.campo:focus{outline:2px solid #ff8c1a;outline-offset:1px}
+.rotulo{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d8c8b8;margin-bottom:.35rem}
+.btn{display:inline-block;padding:.9rem 1.5rem;border-radius:.5rem;background:linear-gradient(90deg,#ff8c1a,#b35400);color:#1a0e00;font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.12em;text-align:center;box-shadow:0 0 20px rgba(255,140,26,.45)}
+.btn:disabled{opacity:.5;cursor:wait}.btn-sec{background:transparent;border:2px solid rgba(255,140,26,.7);color:#ff8c1a;box-shadow:none}
+.opcao{display:block;width:100%;text-align:left;border:1px solid rgba(255,140,26,.3);border-radius:.75rem;padding:1rem;background:rgba(0,0,0,.3);transition:border-color .15s}
+.opcao:hover:not(:disabled){border-color:#ff8c1a}.opcao[aria-pressed=true]{border-color:#ff8c1a;box-shadow:0 0 18px rgba(255,140,26,.35)}.opcao:disabled{opacity:.45;cursor:not-allowed}
+</style>
+</head>
+<body class="text-gray-200 font-sans antialiased min-h-screen">
+<header class="border-b border-orneon/20 bg-black/70">
+  <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="../" class="font-extrabold tracking-widest text-sm text-orange-50" style="text-shadow:0 0 8px #ff8c1a,0 0 20px #ff8c1a">666 PINHEIROS</a>
+    <a href="../" class="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-orneon">← Hostel</a>
+  </div>
+</header>
+<main class="max-w-3xl mx-auto px-4 py-8">
+<div id="carregando" class="painel p-6 text-center text-gray-300">Carregando sua reserva…</div>
+<section id="caixa" class="hidden painel p-6 space-y-4">
+  <p id="selo" class="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border"></p>
+  <h1 id="titulo" class="font-heading text-2xl font-bold text-white"></h1>
+  <p id="mensagem" class="text-sm text-gray-300"></p>
+  <dl id="dados" class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm border-t border-orneon/20 pt-4"></dl>
+  <div id="acoes" class="flex flex-wrap gap-3 pt-2"></div>
+  <div id="cancelar" class="hidden border-t border-orneon/20 pt-4 space-y-3 text-sm"></div>
+  <p id="erro" role="alert" class="text-sm text-red-400"></p>
+</section>
+<section id="semReserva" class="hidden painel p-6 text-center"></section>
+<script src="../../assets/reservas.js"></script>
+<script>
+const q = new URLSearchParams(location.search), COD = q.get('c'), TOKEN = q.get('t');
+const TXT = {
+  aguardando_pagamento: ['Aguardando pagamento', 'Falta pouco', 'Assim que o pagamento for confirmado, esta página atualiza sozinha.', 'border-yellow-500 text-yellow-300'],
+  confirmada: ['Confirmada', 'Reserva confirmada!', 'Tudo certo, sua vaga está garantida. Guarde o link desta página.', 'border-green-500 text-green-300'],
+  expirada: ['Expirada', 'O prazo para pagar acabou', 'A vaga foi liberada. Se ainda quiser vir, é só fazer uma nova reserva.', 'border-gray-500 text-gray-300'],
+  cancelada: ['Cancelada', 'Reserva cancelada', '', 'border-red-500 text-red-300'],
+  reembolsada: ['Reembolsada', 'Pagamento reembolsado', 'O valor foi devolvido pelo Mercado Pago e a reserva foi encerrada.', 'border-red-500 text-red-300'],
+  contestada: ['Em análise', 'Pagamento contestado', 'Fale com a gente pelo WhatsApp para resolver.', 'border-red-500 text-red-300'],
+  falhou: ['Não concluída', 'A reserva não foi concluída', 'Não houve cobrança. Tente de novo ou fale com a gente pelo WhatsApp.', 'border-gray-500 text-gray-300'],
+};
+let tempo = null, confirmando = false;
+function linha(rot, val) { el('dados').append(no('dt', rot, 'text-gray-400'), no('dd', val, 'text-white font-semibold text-right')); }
+function pintar(r) {
+  const t = TXT[r.status] || TXT.falhou;
+  el('carregando').classList.add('hidden'); el('caixa').classList.remove('hidden');
+  el('selo').textContent = t[0]; el('selo').className = 'inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border ' + t[3];
+  el('titulo').textContent = t[1];
+  el('mensagem').textContent = r.status === 'cancelada' ? (r.reembolso_centavos ? `Devolvemos ${brl(r.reembolso_centavos)} pelo mesmo meio de pagamento. O prazo para aparecer depende do seu banco ou cartão.` : 'Sem valor a devolver.') : t[2];
+  el('dados').replaceChildren();
+  linha('Código', r.codigo); linha('Hóspede', r.nome); linha('Acomodação', r.acomodacao);
+  linha(r.tipo === 'cama' ? 'Camas' : 'Pessoas', String(r.tipo === 'cama' ? r.unidades : r.hospedes));
+  linha('Check-in', `${dataBR(r.checkin)}, a partir das ${r.hora_checkin}`); linha('Check-out', `${dataBR(r.checkout)}, até ${r.hora_checkout}`); linha('Total', brl(r.total_centavos));
+  const ac = el('acoes'); ac.replaceChildren();
+  if (r.pagar_url) { const a = no('a', 'Pagar agora', 'btn'); a.href = r.pagar_url; ac.append(a); }
+  if (['expirada', 'cancelada', 'falhou', 'reembolsada'].includes(r.status)) { const a = no('a', 'Nova reserva', 'btn'); a.href = '../reservar/'; ac.append(a); }
+  const w = no('a', 'Falar no WhatsApp', 'btn btn-sec'); w.href = linkWhats(`Olá! Tenho uma dúvida sobre a reserva ${r.codigo}.`); w.target = '_blank'; w.rel = 'noopener'; ac.append(w);
+  if (r.pode_cancelar && !confirmando) { const b = no('button', 'Cancelar reserva', 'btn btn-sec'); b.type = 'button'; b.onclick = () => pedirCancelamento(r); ac.append(b); }
+  clearTimeout(tempo);
+  if (r.status === 'aguardando_pagamento') tempo = setTimeout(carregar, 8000);
+}
+function pedirCancelamento(r) {
+  confirmando = true; clearTimeout(tempo);
+  const c = el('cancelar'); c.classList.remove('hidden');
+  const txt = r.cancelamento ? (r.cancelamento.centavos ? `Pela nossa política, você recebe de volta ${brl(r.cancelamento.centavos)} (${r.cancelamento.pct}% do total).` : 'Pela nossa política, neste prazo não há reembolso.') : 'Ainda não houve pagamento, então não há valor a devolver.';
+  const sim = no('button', 'Sim, cancelar', 'btn'); sim.type = 'button';
+  const nao = no('button', 'Manter reserva', 'btn btn-sec'); nao.type = 'button';
+  nao.onclick = () => { confirmando = false; c.classList.add('hidden'); carregar(); };
+  sim.onclick = async () => {
+    sim.disabled = true; nao.disabled = true; el('erro').textContent = '';
+    try { await apiReservas(`/api/reservas/${encodeURIComponent(COD)}/cancelar`, { token: TOKEN }); confirmando = false; c.classList.add('hidden'); await carregar(); }
+    catch (e) { el('erro').textContent = e.message; sim.disabled = false; nao.disabled = false; }
+  };
+  const lin = no('div', null, 'flex flex-wrap gap-3'); lin.append(sim, nao);
+  c.replaceChildren(no('p', txt, 'text-gray-200'), no('p', 'Essa ação não pode ser desfeita.', 'text-gray-400 text-xs'), lin);
+  el('acoes').replaceChildren();
+}
+async function carregar() {
+  try { pintar(await apiReservas(`/api/reservas/${encodeURIComponent(COD)}?t=${encodeURIComponent(TOKEN)}`)); }
+  catch (e) {
+    if (e.status === 404 || !COD || !TOKEN) { el('carregando').classList.add('hidden'); el('semReserva').classList.remove('hidden'); return mostrarWhats(el('semReserva'), 'Não encontramos essa reserva. Confira o link do e-mail ou fale com a gente.'); }
+    if (!el('caixa').classList.contains('hidden')) { tempo = setTimeout(carregar, 15000); return; }
+    el('carregando').classList.add('hidden'); el('semReserva').classList.remove('hidden');
+    mostrarWhats(el('semReserva'), 'Não conseguimos carregar sua reserva agora. Se você já pagou, fique tranquilo: o pagamento está registrado no Mercado Pago. Fale com a gente pelo WhatsApp.');
+  }
+}
+if (COD && TOKEN) carregar(); else { el('carregando').classList.add('hidden'); el('semReserva').classList.remove('hidden'); mostrarWhats(el('semReserva'), 'Não encontramos essa reserva. Confira o link do e-mail ou fale com a gente.'); }
+</script>
+</main>
+<footer class="max-w-3xl mx-auto px-4 pb-10 text-center text-xs text-gray-500" id="rodape">
+  <a href="../politicas/" class="underline hover:text-orneon">Política de reserva, cancelamento e privacidade</a>
+</footer>
+</body>
+</html>

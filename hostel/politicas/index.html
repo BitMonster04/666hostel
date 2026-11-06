@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0a0704">
+<title>Política de reserva | 666 Pinheiros Hostel</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{colors:{orneon:{DEFAULT:'#ff8c1a',deep:'#b35400',glow:'#ffb366'}},fontFamily:{heading:['Cinzel','serif'],sans:['Montserrat','sans-serif']}}}}</script>
+<style>
+html,body{background:#0a0704}body{background-image:radial-gradient(circle at 50% 0%,#2a1d10 0%,#0a0704 60%);background-repeat:no-repeat}
+.painel{background:rgba(20,16,10,.85);border:1px solid rgba(255,140,26,.25);border-radius:1rem}
+.campo{width:100%;background:#0a0704;border:1px solid rgba(255,140,26,.35);border-radius:.5rem;padding:.7rem .8rem;color:#f3ebe0;font-size:16px;color-scheme:dark}
+.campo:focus{outline:2px solid #ff8c1a;outline-offset:1px}
+.rotulo{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d8c8b8;margin-bottom:.35rem}
+.btn{display:inline-block;padding:.9rem 1.5rem;border-radius:.5rem;background:linear-gradient(90deg,#ff8c1a,#b35400);color:#1a0e00;font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.12em;text-align:center;box-shadow:0 0 20px rgba(255,140,26,.45)}
+.btn:disabled{opacity:.5;cursor:wait}.btn-sec{background:transparent;border:2px solid rgba(255,140,26,.7);color:#ff8c1a;box-shadow:none}
+.opcao{display:block;width:100%;text-align:left;border:1px solid rgba(255,140,26,.3);border-radius:.75rem;padding:1rem;background:rgba(0,0,0,.3);transition:border-color .15s}
+.opcao:hover:not(:disabled){border-color:#ff8c1a}.opcao[aria-pressed=true]{border-color:#ff8c1a;box-shadow:0 0 18px rgba(255,140,26,.35)}.opcao:disabled{opacity:.45;cursor:not-allowed}
+</style>
+</head>
+<body class="text-gray-200 font-sans antialiased min-h-screen">
+<header class="border-b border-orneon/20 bg-black/70">
+  <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="../" class="font-extrabold tracking-widest text-sm text-orange-50" style="text-shadow:0 0 8px #ff8c1a,0 0 20px #ff8c1a">666 PINHEIROS</a>
+    <a href="../" class="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-orneon">← Hostel</a>
+  </div>
+</header>
+<main class="max-w-3xl mx-auto px-4 py-8">
+<article class="painel p-6 space-y-6 text-sm leading-relaxed text-gray-300">
+  <h1 class="font-heading text-2xl font-bold text-white">Política de reserva, cancelamento e privacidade</h1>
+  <section><h2 class="font-bold text-orneon mb-1">Quem vende</h2><p id="empresa">Carregando…</p></section>
+  <section><h2 class="font-bold text-orneon mb-1">Pagamento</h2><p>O pagamento é integral no momento da reserva, por Pix ou cartão, processado pelo Mercado Pago. Não recebemos nem guardamos dados do seu cartão. A reserva só é confirmada depois da aprovação do pagamento; até lá, a vaga fica guardada por tempo limitado.</p></section>
+  <section><h2 class="font-bold text-orneon mb-1">Horários</h2><p id="horarios">Carregando…</p></section>
+  <section><h2 class="font-bold text-orneon mb-1">Cancelamento e reembolso</h2><ul id="faixas" class="list-disc pl-5 space-y-1"></ul><p class="mt-2">Você cancela pelo link do e-mail de confirmação ou pelo nosso WhatsApp. O reembolso volta pelo mesmo meio de pagamento, e o prazo para aparecer depende do banco ou da operadora do cartão. Se você não comparecer, a reserva é tratada como cancelamento sem reembolso.</p></section>
+  <section><h2 class="font-bold text-orneon mb-1">Dormitórios</h2><p>As camas são compartilhadas e separadas por dormitório masculino e feminino. A cama é definida na chegada. A suíte privativa recebe até 2 pessoas.</p></section>
+  <section><h2 class="font-bold text-orneon mb-1">Privacidade</h2><p>Usamos seu nome, e-mail e WhatsApp apenas para gerenciar a reserva e falar com você sobre ela, e compartilhamos os dados necessários com o Mercado Pago para processar o pagamento. Para pedir acesso, correção ou exclusão dos seus dados, fale com a gente pelos contatos abaixo.</p></section>
+  <section><h2 class="font-bold text-orneon mb-1">Contato</h2><p id="contato">Carregando…</p></section>
+</article>
+<script src="../../assets/reservas.js"></script>
+<script>
+apiReservas('/api/config').then((c) => {
+  el('empresa').textContent = c.empresa.razao_social ? `${c.empresa.razao_social}, CNPJ ${c.empresa.cnpj}. ${c.empresa.endereco}.` : c.empresa.endereco;
+  el('horarios').textContent = c.horario.checkin ? `Check-in a partir das ${c.horario.checkin}; check-out até as ${c.horario.checkout}. Recepção 24 horas.` : 'Recepção 24 horas.';
+  const fx = [...c.cancelamento.faixas].sort((a, b) => b.antes_horas - a.antes_horas);
+  const prazo = (h) => (h >= 48 && h % 24 === 0 ? `${h / 24} dias` : `${h} horas`);
+  el('faixas').replaceChildren(...fx.map((f, i) => no('li', f.antes_horas ? `Cancelando com ${prazo(f.antes_horas)} ou mais de antecedência do check-in: reembolso de ${f.reembolso_pct}%.` : `Com menos de ${prazo(fx[i - 1]?.antes_horas ?? 0)} de antecedência: ${f.reembolso_pct ? 'reembolso de ' + f.reembolso_pct + '%' : 'sem reembolso'}.`)));
+  if (c.cancelamento.arrependimento_dias) el('faixas').prepend(no('li', `Compras canceladas em até ${c.cancelamento.arrependimento_dias} dias, antes do check-in: reembolso integral.`));
+  el('contato').textContent = `WhatsApp (11) 98099-1685 · ${c.empresa.email}`;
+}).catch(() => {
+  el('empresa').textContent = 'Rua Padre de Carvalho, 666, Pinheiros, São Paulo/SP.'; el('horarios').textContent = 'Fale com a gente pelo WhatsApp.';
+  el('faixas').replaceChildren(no('li', 'Consulte as regras com a gente pelo WhatsApp (11) 98099-1685.')); el('contato').textContent = 'WhatsApp (11) 98099-1685';
+});
+</script>
+</main>
+<footer class="max-w-3xl mx-auto px-4 pb-10 text-center text-xs text-gray-500" id="rodape">
+  <a href="../politicas/" class="underline hover:text-orneon">Política de reserva, cancelamento e privacidade</a>
+</footer>
+</body>
+</html>

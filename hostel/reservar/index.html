@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
 <meta name="theme-color" content="#0a0704">
-<meta name="description" content="Escolha as datas e a acomodação no 666 Pinheiros Hostel e reserve pelo WhatsApp.">
 <title>Reservar | 666 Pinheiros Hostel</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,11 +20,9 @@ html,body{background:#0a0704}body{background-image:radial-gradient(circle at 50%
 .campo:focus{outline:2px solid #ff8c1a;outline-offset:1px}
 .rotulo{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d8c8b8;margin-bottom:.35rem}
 .btn{display:inline-block;padding:.9rem 1.5rem;border-radius:.5rem;background:linear-gradient(90deg,#ff8c1a,#b35400);color:#1a0e00;font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.12em;text-align:center;box-shadow:0 0 20px rgba(255,140,26,.45)}
-.btn-sec{background:transparent;border:2px solid rgba(255,140,26,.7);color:#ff8c1a;box-shadow:none}
+.btn:disabled{opacity:.5;cursor:wait}.btn-sec{background:transparent;border:2px solid rgba(255,140,26,.7);color:#ff8c1a;box-shadow:none}
 .opcao{display:block;width:100%;text-align:left;border:1px solid rgba(255,140,26,.3);border-radius:.75rem;padding:1rem;background:rgba(0,0,0,.3);transition:border-color .15s}
-.opcao:hover{border-color:#ff8c1a}.opcao[aria-pressed=true]{border-color:#ff8c1a;box-shadow:0 0 18px rgba(255,140,26,.35)}
-dialog#aviso{background:#14100a;color:#efe6da;border:2px solid rgba(255,140,26,.7);border-radius:1rem;padding:1.5rem;width:min(92vw,440px);box-shadow:0 0 40px rgba(255,140,26,.45);margin:auto}
-dialog::backdrop{background:rgba(0,0,0,.7)}
+.opcao:hover:not(:disabled){border-color:#ff8c1a}.opcao[aria-pressed=true]{border-color:#ff8c1a;box-shadow:0 0 18px rgba(255,140,26,.35)}.opcao:disabled{opacity:.45;cursor:not-allowed}
 </style>
 </head>
 <body class="text-gray-200 font-sans antialiased min-h-screen">
@@ -34,123 +33,145 @@ dialog::backdrop{background:rgba(0,0,0,.7)}
   </div>
 </header>
 <main class="max-w-3xl mx-auto px-4 py-8">
-  <div class="text-center mb-6">
-    <img src="../../assets/logo-hostel.webp" alt="Hostel Pinheiros 666" width="1619" height="971" class="logo-reserva w-56 sm:w-72 h-auto mx-auto mb-5">
-    <h1 class="font-heading text-2xl sm:text-3xl font-bold text-white">Reserve sua estadia</h1>
-    <p class="text-sm text-gray-400 mt-1">Escolha os dias e a acomodação para ver o valor. Recepção 24 horas.</p>
-  </div>
-  <form id="form" class="space-y-6" novalidate>
-    <section class="painel p-5">
-      <h2 class="font-heading text-lg text-white font-bold mb-4">1. Quando você vem?</h2>
-      <div class="grid grid-cols-2 gap-3">
-        <div class="min-w-0"><label class="rotulo" for="checkin">Entrada</label><input class="campo" type="date" id="checkin"></div>
-        <div class="min-w-0"><label class="rotulo" for="checkout">Saída</label><input class="campo" type="date" id="checkout"></div>
-      </div>
-      <div class="mt-3"><label class="rotulo" for="chegada">Horário previsto de chegada</label><select class="campo" id="chegada"></select></div>
-      <p id="erroDatas" role="alert" class="text-sm text-red-400 mt-2"></p>
-    </section>
-    <section class="painel p-5">
-      <h2 class="font-heading text-lg text-white font-bold mb-4">2. Onde você quer dormir?</h2>
-      <div id="opcoes" class="space-y-3"></div>
-      <div class="mt-4"><label class="rotulo" for="quantidade" id="rotuloQtd"></label><select class="campo" id="quantidade"></select></div>
-    </section>
-    <section class="painel p-5" aria-live="polite">
-      <h2 class="font-heading text-lg text-white font-bold mb-3">3. Sua reserva</h2>
-      <p id="resumo" class="text-sm text-gray-300"></p>
-      <div id="linhaTotal" class="flex justify-between items-baseline mt-3 pt-3 border-t border-orneon/20"><span class="font-bold text-white">Valor estimado</span><span id="total" class="text-xl font-extrabold text-orneon"></span></div>
-      <p id="erroForm" role="alert" class="text-sm text-red-400 mt-3"></p>
-      <button class="btn w-full mt-4" type="submit">Reservar</button>
-    </section>
-  </form>
-</main>
-<dialog id="aviso" aria-labelledby="avisoTitulo">
-  <h2 id="avisoTitulo" class="font-heading text-xl font-bold text-white mb-2">Reservas pelo WhatsApp</h2>
-  <p class="text-sm text-gray-300">Por enquanto, as reservas estão disponíveis apenas pelo WhatsApp. Em breve, você também vai poder reservar aqui pelo site.</p>
-  <p class="text-sm text-gray-300 mt-2">Já deixamos sua mensagem pronta com o que você escolheu.</p>
-  <div class="flex flex-col gap-3 mt-5">
-    <a id="whats" class="btn" target="_blank" rel="noopener">Reservar pelo WhatsApp</a>
-    <button id="fechar" class="btn btn-sec" type="button">Voltar</button>
-  </div>
-</dialog>
-<script>
-// Tabela informada pelo hostel: valor da cama e da suíte (quarto inteiro) por diária.
-const PRIMEIRA = 100, DEMAIS = 85, ESTADIA_LONGA = 5, SUITE_PRIMEIRA = 250, SUITE_DEMAIS = 200, WHATSAPP = '5511980991685';
-const ACOMODACOES = [
-  { id: 'dorm-masc', nome: 'Dormitório Masculino', tipo: 'cama', descricao: 'Cama em dormitório compartilhado.' },
-  { id: 'dorm-fem', nome: 'Dormitório Feminino', tipo: 'cama', descricao: 'Cama em dormitório compartilhado.' },
-  { id: 'suite', nome: 'Suíte Privativa de Casal', tipo: 'quarto', descricao: 'Quarto privativo para até 2 pessoas.' },
-];
-const el = (id) => document.getElementById(id);
-const brl = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-const dataBR = (s) => s.split('-').reverse().join('/');
-const somaDias = (s, n) => new Date(Date.parse(s + 'T00:00:00Z') + n * 864e5).toISOString().slice(0, 10);
-const noites = (a, b) => Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 864e5);
-const hoje = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
-const plural = (n, s, p) => `${n} ${n === 1 ? s : p}`;
-const valorCama = (n) => (n >= ESTADIA_LONGA ? n * DEMAIS : PRIMEIRA + (n - 1) * DEMAIS);
-let atual = ACOMODACOES[0];
+<p id="avisoTeste" class="hidden mb-4 rounded-md border border-yellow-500 text-yellow-300 text-sm p-3 text-center font-bold">MODO TESTE: nenhum pagamento é real.</p>
+<div class="text-center mb-6">
+  <img src="../../assets/logo-hostel.webp" alt="Hostel Pinheiros 666" width="1619" height="971" class="logo-reserva w-56 sm:w-72 h-auto mx-auto mb-5">
+  <h1 class="font-heading text-2xl sm:text-3xl font-bold text-white">Reserve sua estadia</h1>
+  <p class="text-sm text-gray-400 mt-1">Pague na hora com Pix ou cartão, em ambiente seguro do Mercado Pago.</p>
+</div>
 
-function opcoes(select, lista) {
-  select.replaceChildren(...lista.map(([v, t]) => { const o = document.createElement('option'); o.value = v; o.textContent = t; return o; }));
+<section id="fechado" class="hidden painel p-6 text-center"></section>
+
+<div id="fluxo" class="hidden space-y-6">
+  <section class="painel p-5">
+    <h2 class="font-heading text-lg text-white font-bold mb-4">1. Quando você vem?</h2>
+    <div class="grid grid-cols-2 gap-3">
+      <div class="min-w-0"><label class="rotulo" for="checkin">Check-in</label><input class="campo" type="date" id="checkin"></div>
+      <div class="min-w-0"><label class="rotulo" for="checkout">Check-out</label><input class="campo" type="date" id="checkout"></div>
+    </div>
+    <p id="horarios" class="text-xs text-gray-400 mt-3"></p>
+    <p id="erroDatas" role="alert" class="text-sm text-red-400 mt-2"></p>
+  </section>
+
+  <section id="passo2" class="hidden painel p-5">
+    <h2 class="font-heading text-lg text-white font-bold mb-4">2. Onde você quer dormir?</h2>
+    <div id="opcoes" class="space-y-3"></div>
+    <div id="caixaQtd" class="hidden mt-4"><label class="rotulo" for="quantidade" id="rotuloQtd"></label><select class="campo" id="quantidade"></select></div>
+  </section>
+
+  <form id="passo3" class="hidden painel p-5 space-y-4" novalidate>
+    <h2 class="font-heading text-lg text-white font-bold">3. Seus dados</h2>
+    <div><label class="rotulo" for="nome">Nome completo</label><input class="campo" id="nome" autocomplete="name" maxlength="100" required></div>
+    <div><label class="rotulo" for="email">E-mail</label><input class="campo" id="email" type="email" autocomplete="email" maxlength="120" required></div>
+    <div><label class="rotulo" for="telefone">WhatsApp com DDD</label><input class="campo" id="telefone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" required></div>
+    <div class="rounded-lg bg-black/30 p-4 text-sm" aria-live="polite">
+      <div id="resumo" class="text-gray-300"></div>
+      <div class="flex justify-between items-baseline mt-2 pt-2 border-t border-orneon/20"><span class="font-bold text-white">Total</span><span id="total" class="text-xl font-extrabold text-orneon"></span></div>
+    </div>
+    <div id="regrasCancel" class="text-xs text-gray-400"></div>
+    <label class="flex gap-3 items-start text-sm cursor-pointer"><input type="checkbox" id="aceite" class="mt-1 w-4 h-4 accent-orange-500 shrink-0"><span>Li e aceito a <a href="../politicas/" target="_blank" class="underline text-orneon">política de reserva e cancelamento</a>.</span></label>
+    <p id="erroForm" role="alert" class="text-sm text-red-400"></p>
+    <button id="pagar" class="btn w-full" type="submit">Ir para o pagamento</button>
+    <p class="text-xs text-gray-500 text-center" id="avisoPrazo"></p>
+  </form>
+</div>
+<script src="../../assets/reservas.js"></script>
+<script>
+let cfg, opcaoAtual = null, listaOpcoes = [], consultaSeq = 0;
+function erroGeral(e) {
+  el('fluxo').classList.add('hidden'); el('fechado').classList.remove('hidden');
+  mostrarWhats(el('fechado'), e.codigo === 'vendas_fechadas' ? e.message : 'A reserva online está indisponível no momento, mas a gente te atende pelo WhatsApp.');
+}
+function somaDias(s, n) { return new Date(Date.parse(s + 'T00:00:00Z') + n * 864e5).toISOString().slice(0, 10); }
+function hoje() { return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date()); }
+async function iniciar() {
+  try { cfg = await apiReservas('/api/config'); } catch (e) { return erroGeral(e); }
+  if (!cfg.aberto) { el('fechado').classList.remove('hidden'); return mostrarWhats(el('fechado'), 'As reservas online abrem em breve. Por enquanto, fale com a gente pelo WhatsApp.'); }
+  el('avisoTeste').classList.toggle('hidden', cfg.ambiente !== 'teste');
+  el('fluxo').classList.remove('hidden');
+  const min = cfg.abertura && cfg.abertura > hoje() ? cfg.abertura : hoje();
+  el('checkin').min = min; el('checkout').min = somaDias(min, 1);
+  el('checkin').max = somaDias(hoje(), cfg.regras.antecedencia_max_dias);
+  el('horarios').textContent = `Check-in a partir das ${cfg.horario.checkin} · Check-out até ${cfg.horario.checkout} · Recepção 24h`;
+  el('avisoPrazo').textContent = `Sua vaga fica guardada por ${cfg.link_minutos} minutos enquanto você paga.`;
+  const fx = [...cfg.cancelamento.faixas].sort((a, b) => b.antes_horas - a.antes_horas);
+  el('regrasCancel').textContent = 'Cancelamento: ' + fx.map((f) => f.antes_horas ? `até ${f.antes_horas >= 48 && f.antes_horas % 24 === 0 ? f.antes_horas / 24 + ' dias' : f.antes_horas + ' horas'} antes do check-in, devolvemos ${f.reembolso_pct}%` : `depois disso, ${f.reembolso_pct ? 'devolvemos ' + f.reembolso_pct + '%' : 'sem reembolso'}`).join('; ') + '.';
+}
+async function consultar() {
+  const ci = el('checkin').value, co = el('checkout').value;
+  el('erroDatas').textContent = '';
+  opcaoAtual = null; atualizarPasso3();
+  if (ci) { el('checkout').min = somaDias(ci, 1); }
+  if (!ci || !co) { el('passo2').classList.add('hidden'); return; }
+  const seq = ++consultaSeq;
+  try {
+    const { opcoes } = await apiReservas(`/api/disponibilidade?checkin=${ci}&checkout=${co}`);
+    if (seq !== consultaSeq) return;
+    listaOpcoes = opcoes; pintarOpcoes();
+    el('passo2').classList.remove('hidden');
+  } catch (e) {
+    if (seq !== consultaSeq) return;
+    el('passo2').classList.add('hidden');
+    if (e.status === 400) el('erroDatas').textContent = e.message; else erroGeral(e);
+  }
 }
 function pintarOpcoes() {
-  el('opcoes').replaceChildren(...ACOMODACOES.map((a) => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'opcao'; b.setAttribute('aria-pressed', String(a === atual));
-    const nome = document.createElement('p'); nome.className = 'font-bold text-white'; nome.textContent = a.nome;
-    const desc = document.createElement('p'); desc.className = 'text-xs text-gray-400 mt-1'; desc.textContent = a.descricao;
-    const preco = document.createElement('p'); preco.className = 'text-xs text-orneon font-semibold mt-1';
-    preco.textContent = a.tipo === 'cama' ? `${brl(PRIMEIRA)} a primeira diária, ${brl(DEMAIS)} as demais. A partir de ${ESTADIA_LONGA} diárias, ${brl(DEMAIS)} cada.` : `${brl(SUITE_PRIMEIRA)} a primeira diária, ${brl(SUITE_DEMAIS)} as demais.`;
-    b.append(nome, desc, preco);
-    b.onclick = () => { atual = a; prepararQtd(); pintarOpcoes(); atualizar(); };
+  el('opcoes').replaceChildren(...listaOpcoes.map((o) => {
+    const b = no('button', null, 'opcao'); b.type = 'button'; b.disabled = o.vagas < 1; b.setAttribute('aria-pressed', String(opcaoAtual?.id === o.id));
+    const topo = no('div', null, 'flex justify-between gap-3 items-baseline');
+    topo.append(no('span', o.nome, 'font-bold text-white'), no('span', brl(o.por_unidade_centavos), 'font-extrabold text-orneon whitespace-nowrap'));
+    const det = o.tipo === 'cama' ? `por cama, ${o.noites} noite${o.noites > 1 ? 's' : ''}` : `o quarto, ${o.noites} noite${o.noites > 1 ? 's' : ''}`;
+    const livres = o.vagas < 1 ? 'Esgotado nessas datas' : o.tipo === 'cama' ? `${o.vagas} cama${o.vagas > 1 ? 's' : ''} livre${o.vagas > 1 ? 's' : ''}` : 'Disponível';
+    b.append(topo, no('p', o.descricao, 'text-xs text-gray-400 mt-1'), no('p', `${det} · ${livres}`, 'text-xs mt-1 ' + (o.vagas < 1 ? 'text-red-400' : 'text-gray-300')));
+    b.onclick = () => { opcaoAtual = o; prepararQtd(); pintarOpcoes(); atualizarPasso3(); };
     return b;
   }));
 }
 function prepararQtd() {
-  const camas = atual.tipo === 'cama';
+  const s = el('quantidade'); const camas = opcaoAtual.tipo === 'cama';
+  const max = camas ? opcaoAtual.vagas : opcaoAtual.hospedes_max;
+  s.replaceChildren(...Array.from({ length: max }, (_, i) => { const op = no('option', camas ? `${i + 1} cama${i ? 's' : ''}` : `${i + 1} pessoa${i ? 's' : ''}`); op.value = i + 1; return op; }));
+  if (!camas) s.value = String(max);
   el('rotuloQtd').textContent = camas ? 'Quantas camas?' : 'Quantas pessoas?';
-  opcoes(el('quantidade'), Array.from({ length: camas ? 8 : 2 }, (_, i) => [i + 1, camas ? plural(i + 1, 'cama', 'camas') : plural(i + 1, 'pessoa', 'pessoas')]));
-  if (!camas) el('quantidade').value = '2';
+  el('caixaQtd').classList.toggle('hidden', max < 2);
 }
-function escolha() {
-  const ci = el('checkin').value, co = el('checkout').value;
-  const q = Number(el('quantidade').value);
-  const n = ci && co && co > ci ? noites(ci, co) : 0;
-  const valor = !n ? null : atual.tipo === 'cama' ? valorCama(n) * q : SUITE_PRIMEIRA + (n - 1) * SUITE_DEMAIS;
-  return { ci, co, q, n, valor };
+function atualizarPasso3() {
+  el('passo3').classList.toggle('hidden', !opcaoAtual);
+  if (!opcaoAtual) { el('caixaQtd').classList.add('hidden'); return; }
+  const q = opcaoAtual.tipo === 'cama' ? Number(el('quantidade').value) : 1;
+  const qtxt = opcaoAtual.tipo === 'cama' ? `${q} cama${q > 1 ? 's' : ''}` : `${el('quantidade').value} pessoa${el('quantidade').value > 1 ? 's' : ''}`;
+  el('resumo').textContent = `${opcaoAtual.nome}, ${qtxt}. De ${dataBR(el('checkin').value)} a ${dataBR(el('checkout').value)} (${opcaoAtual.noites} noite${opcaoAtual.noites > 1 ? 's' : ''}).`;
+  el('total').textContent = brl(opcaoAtual.por_unidade_centavos * q);
 }
-function atualizar() {
-  const { ci, co, q, n, valor } = escolha();
-  el('erroDatas').textContent = ci && co && co <= ci ? 'A saída precisa ser depois da entrada.' : '';
-  el('erroForm').textContent = '';
-  if (ci) el('checkout').min = somaDias(ci, 1);
-  const qtd = atual.tipo === 'cama' ? plural(q, 'cama', 'camas') : plural(q, 'pessoa', 'pessoas');
-  el('resumo').textContent = n ? `${atual.nome}, ${qtd}. De ${dataBR(ci)} a ${dataBR(co)} (${plural(n, 'diária', 'diárias')}).` : 'Escolha as datas de entrada e saída para ver o resumo.';
-  el('linhaTotal').classList.toggle('hidden', !n);
-  el('total').textContent = valor !== null ? brl(valor) : '';
-}
-function mensagem() {
-  const { ci, co, q, n, valor } = escolha();
-  const qtd = atual.tipo === 'cama' ? plural(q, 'cama', 'camas') : plural(q, 'pessoa', 'pessoas');
-  const linhas = ['Olá! Quero reservar no Hostel 666 Pinheiros:', `${atual.nome}, ${qtd}`, `Entrada: ${dataBR(ci)}`, `Saída: ${dataBR(co)} (${plural(n, 'diária', 'diárias')})`];
-  if (el('chegada').value) linhas.push(`Chegada prevista: ${el('chegada').value}`);
-  if (valor !== null) linhas.push(`Valor estimado: ${brl(valor)}`);
-  return linhas.join('\n');
-}
-el('checkin').min = hoje; el('checkout').min = somaDias(hoje, 1);
-opcoes(el('chegada'), [['', 'Ainda não sei'], ...Array.from({ length: 24 }, (_, h) => { const t = String(h).padStart(2, '0') + ':00'; return [t, t]; })]);
-['checkin', 'checkout', 'chegada', 'quantidade'].forEach((id) => el(id).addEventListener('change', atualizar));
-el('form').addEventListener('submit', (ev) => {
+el('checkin').addEventListener('change', consultar);
+el('checkout').addEventListener('change', consultar);
+el('quantidade').addEventListener('change', atualizarPasso3);
+el('aceite').addEventListener('change', () => { el('erroForm').textContent = ''; });
+el('passo3').addEventListener('submit', async (ev) => {
   ev.preventDefault();
-  const { ci, co, n } = escolha();
-  if (!ci || !co) { el('erroForm').textContent = 'Escolha as datas de entrada e saída.'; return el(ci ? 'checkout' : 'checkin').focus(); }
-  if (ci < hoje) { el('erroForm').textContent = 'A entrada não pode ser no passado.'; return el('checkin').focus(); }
-  if (!n) { el('erroForm').textContent = 'A saída precisa ser depois da entrada.'; return el('checkout').focus(); }
-  el('whats').href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensagem())}`;
-  el('aviso').showModal();
+  el('erroForm').textContent = '';
+  const nome = el('nome').value.trim();
+  if (!nome.includes(' ')) return falhaForm('Informe nome e sobrenome.', 'nome');
+  if (!el('email').checkValidity() || !el('email').value) return falhaForm('Informe um e-mail válido.', 'email');
+  if (el('telefone').value.replace(/\D/g, '').length < 10) return falhaForm('Informe o WhatsApp com DDD.', 'telefone');
+  if (!el('aceite').checked) return falhaForm('É preciso aceitar a política para continuar.', 'aceite');
+  const b = el('pagar'); b.disabled = true; b.textContent = 'Abrindo o pagamento…';
+  try {
+    const r = await apiReservas('/api/reservas', { acomodacao: opcaoAtual.id, checkin: el('checkin').value, checkout: el('checkout').value, quantidade: Number(el('quantidade').value), nome, email: el('email').value.trim(), telefone: el('telefone').value, aceite_politica: true });
+    location.href = r.pagar_url;
+  } catch (e) {
+    b.disabled = false; b.textContent = 'Ir para o pagamento';
+    if (e.codigo === 'sem_vaga') { el('erroForm').textContent = e.message; opcaoAtual = null; await consultar(); el('passo2').scrollIntoView({ behavior: 'smooth' }); }
+    else if (e.codigo === 'fora_do_ar' || e.status >= 500) erroGeral(e);
+    else el('erroForm').textContent = e.message;
+  }
 });
-el('fechar').onclick = () => el('aviso').close();
-prepararQtd(); pintarOpcoes(); atualizar();
+function falhaForm(msg, id) { el('erroForm').textContent = msg; el(id).focus(); }
+iniciar();
 </script>
+</main>
+<footer class="max-w-3xl mx-auto px-4 pb-10 text-center text-xs text-gray-500" id="rodape">
+  <a href="../politicas/" class="underline hover:text-orneon">Política de reserva, cancelamento e privacidade</a>
+</footer>
 </body>
 </html>
