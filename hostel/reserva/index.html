@@ -48,7 +48,7 @@ html,body{background:#0a0704}body{background-image:radial-gradient(circle at 50%
 const q = new URLSearchParams(location.search), COD = q.get('c'), TOKEN = q.get('t');
 const TXT = {
   aguardando_pagamento: ['Aguardando pagamento', 'Falta pouco', 'Assim que o pagamento for confirmado, esta página atualiza sozinha.', 'border-yellow-500 text-yellow-300'],
-  confirmada: ['Confirmada', 'Reserva confirmada!', 'Tudo certo, sua vaga está garantida. Guarde o link desta página.', 'border-green-500 text-green-300'],
+  confirmada: ['Confirmada', 'Reserva confirmada!', 'Tudo certo, sua vaga está garantida. Enviamos a confirmação por e-mail: se não aparecer na caixa de entrada, olhe no spam. Guarde o link desta página.', 'border-green-500 text-green-300'],
   expirada: ['Expirada', 'O prazo para pagar acabou', 'A vaga foi liberada. Se ainda quiser vir, é só fazer uma nova reserva.', 'border-gray-500 text-gray-300'],
   cancelada: ['Cancelada', 'Reserva cancelada', '', 'border-red-500 text-red-300'],
   reembolsada: ['Reembolsada', 'Pagamento reembolsado', 'O valor foi devolvido pelo Mercado Pago e a reserva foi encerrada.', 'border-red-500 text-red-300'],
