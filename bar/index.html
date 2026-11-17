@@ -201,6 +201,9 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: #0a0506; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #3a1216; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #ff2b3f; }
+        .story p { font-size: 0.95rem; line-height: 1.8; color: #d8c8b8; }
+        .story p + p { margin-top: 1rem; }
+        .story blockquote { border-left: 3px solid #ff2b3f; padding: .25rem 0 .25rem 1rem; margin: 1.25rem 0; color: #fff6e8; font-style: italic; }
     </style>
 </head>
 <body class="text-gray-200 font-sans antialiased custom-scrollbar min-h-screen">
@@ -248,7 +251,7 @@
         </h1>
 
         <p class="text-gray-300 max-w-xl mt-6 text-sm sm:text-base leading-relaxed text-panel px-5 py-3 rounded-lg">
-            Drinks autorais, caipirinhas geladas e aquele clima de rua movimentada — todo santo dia, até o último cliente.
+            Caipirinhas, a cerveja sempre gelada, drinks exóticos e aquele clima de rua movimentada — todo santo dia, até o último cliente.
         </p>
 
         <button onclick="reservar()" class="mt-8 px-8 py-4 rounded-md bg-gradient-to-r from-redneon to-redneon-deep text-white font-extrabold text-sm uppercase tracking-widest shadow-[0_0_30px_rgba(255,43,63,0.55)] hover:shadow-[0_0_45px_rgba(255,43,63,0.85)] hover:scale-105 transition duration-300">
@@ -267,6 +270,11 @@
 
         <div class="relative -mx-4" id="bubble-gallery">
             <ul class="bubble-row" id="bubble-row" tabindex="0" aria-label="Fotos do bar. Use as setas do teclado para ver mais.">
+            <li class="bubble-item">
+                <div class="float-bubble bubble-ring">
+                    <img src="../assets/bubble-cerveja-rua.webp" alt="Copo de cerveja gelada erguido na calçada movimentada do bar 666 Pinheiros" width="320" height="320" loading="lazy" decoding="async" class="hover:scale-105 transition duration-500">
+                </div>
+            </li>
             <li class="bubble-item">
                 <div class="float-bubble bubble-ring">
                     <img src="../assets/bubble-drink.webp" alt="Gin tônica Beefeater servido no bar do 666 Pinheiros" width="320" height="320" loading="lazy" decoding="async" class="hover:scale-105 transition duration-500">
@@ -321,18 +329,18 @@
                 <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white mt-1">Destaques do Bar</h2>
             </div>
 
-            <div class="grid sm:grid-cols-3 gap-6">
+            <div class="grid sm:grid-cols-2 gap-6">
                 <div class="p-5 rounded-xl border border-redneon/25 bg-black/30 hover:border-redneon/60 transition">
                     <i class="fa-solid fa-martini-glass-citrus text-redneon text-xl mb-3"></i>
                     <h3 class="font-heading text-white font-bold mb-1">Heineken 600ml</h3>
-                    <p class="text-xs text-gray-400 mb-3">A cerveja mais barata de São Paulo.</p>
-                    <span class="text-redneon font-bold">R$ 13,99</span>
+                    <p class="text-xs text-gray-400 mb-3">A gelada, trincando de fria.</p>
+                    <span class="text-redneon font-bold">R$ 17,99</span>
                 </div>
                 <div class="p-5 rounded-xl border border-redneon/25 bg-black/30 hover:border-redneon/60 transition">
                     <i class="fa-solid fa-martini-glass-citrus text-redneon text-xl mb-3"></i>
                     <h3 class="font-heading text-white font-bold mb-1">Heineken Long Neck</h3>
                     <p class="text-xs text-gray-400 mb-3">Gelada, na medida certa.</p>
-                    <span class="text-redneon font-bold">R$ 9,99</span>
+                    <span class="text-redneon font-bold">R$ 11,99</span>
                 </div>
                 <div class="p-5 rounded-xl border border-redneon/25 bg-black/30 hover:border-redneon/60 transition">
                     <i class="fa-solid fa-martini-glass text-redneon text-xl mb-3"></i>
@@ -340,8 +348,27 @@
                     <p class="text-xs text-gray-400 mb-3">Clássica, geladinha, do jeito certo.</p>
                     <span class="text-redneon font-bold">Consulte</span>
                 </div>
+                <div class="p-5 rounded-xl border border-redneon/25 bg-black/30 hover:border-redneon/60 transition">
+                    <i class="fa-solid fa-martini-glass-citrus text-redneon text-xl mb-3"></i>
+                    <h3 class="font-heading text-white font-bold mb-1">Drinks Exóticos</h3>
+                    <p class="text-xs text-gray-400 mb-3">Sabores diferentes pra sair do comum. Pergunte no balcão.</p>
+                    <span class="text-redneon font-bold">Consulte</span>
+                </div>
             </div>
             <p class="text-center text-xs text-gray-500 mt-8">Cardápio completo em breve — essas são as nossas estrelas por enquanto.</p>
+        </div>
+    </section>
+
+
+    <!-- Venha tomar um drink -->
+    <section class="py-16 px-4">
+        <div class="max-w-3xl mx-auto text-panel rounded-2xl p-8 sm:p-10 story">
+            <div class="text-center mb-8">
+                <span class="text-redneon uppercase tracking-widest text-xs font-bold">Bar &amp; Adega</span>
+                <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white mt-1">Venha tomar um drink</h2>
+            </div>
+            <p>O hostel tem ainda um animado bar e adega, inaugurados há poucos dias e fazendo o maior sucesso. O bar serve deliciosos espetinhos na brasa e conta com uma excelente e variada carta de bebidas: caipirinhas, a cerveja sempre gelada e drinks exóticos. Tem até absinto, bebida que foi proibida por muitos anos pelo seu altíssimo teor alcoólico.</p>
+            <p>Além disso, você pode ouvir a sua música preferida: é só chegar e pedir. Venha nos conhecer, beber com a gente, relaxar e conhecer gente de todas as partes do mundo. Saúde!</p>
         </div>
     </section>
 
@@ -393,6 +420,22 @@
                 hintLeft.classList.toggle('is-on', row.scrollLeft > 1);
                 hintRight.classList.toggle('is-on', row.scrollLeft < max - 1);
             }
+            // Abre na foto do meio: quem visita escolhe se vai para a esquerda ou para a direita
+            let mexeu = false;
+            function centralizar() {
+                const itens = row.children;
+                if (!itens.length) return;
+                const meio = itens[Math.floor((itens.length - 1) / 2)].getBoundingClientRect();
+                const fila = row.getBoundingClientRect();
+                row.scrollLeft += (meio.left + meio.width / 2) - (fila.left + fila.width / 2);
+            }
+            for (const ev of ['pointerdown', 'wheel', 'touchstart', 'keydown']) row.addEventListener(ev, () => { mexeu = true; }, { passive: true });
+            // O estilo (Tailwind) e as fotos terminam de montar depois: recentraliza até a pessoa mexer na fila
+            const recentralizar = () => { if (!mexeu) centralizar(); };
+            recentralizar();
+            new ResizeObserver(recentralizar).observe(row);
+            for (const li of row.children) new ResizeObserver(recentralizar).observe(li);
+            window.addEventListener('load', () => { recentralizar(); setTimeout(recentralizar, 400); });
             row.addEventListener('scroll', updateHints, { passive: true });
             window.addEventListener('resize', updateHints);
             updateHints();
