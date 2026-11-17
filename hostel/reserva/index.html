@@ -37,6 +37,7 @@ html,body{background:#0a0704}body{background-image:radial-gradient(circle at 50%
   <p id="selo" class="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border"></p>
   <h1 id="titulo" class="font-heading text-2xl font-bold text-white"></h1>
   <p id="mensagem" class="text-sm text-gray-300"></p>
+  <div id="pagamento" class="hidden border-t border-orneon/20 pt-4 space-y-4"></div>
   <dl id="dados" class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm border-t border-orneon/20 pt-4"></dl>
   <div id="acoes" class="flex flex-wrap gap-3 pt-2"></div>
   <div id="cancelar" class="hidden border-t border-orneon/20 pt-4 space-y-3 text-sm"></div>
@@ -68,15 +69,66 @@ function pintar(r) {
   linha(r.tipo === 'cama' ? 'Camas' : 'Pessoas', String(r.tipo === 'cama' ? r.unidades : r.hospedes));
   linha('Check-in', `${dataBR(r.checkin)}, a partir das ${r.hora_checkin}`); linha('Check-out', `${dataBR(r.checkout)}, até ${r.hora_checkout}`); linha('Total', brl(r.total_centavos));
   const ac = el('acoes'); ac.replaceChildren();
-  if (r.pagar_url) { const a = no('a', 'Pagar agora', 'btn'); a.href = r.pagar_url; ac.append(a); }
+  pintarPagamento(r);
   if (['expirada', 'cancelada', 'falhou', 'reembolsada'].includes(r.status)) { const a = no('a', 'Nova reserva', 'btn'); a.href = '../reservar/'; ac.append(a); }
   const w = no('a', 'Falar no WhatsApp', 'btn btn-sec'); w.href = linkWhats(`Olá! Tenho uma dúvida sobre a reserva ${r.codigo}.`); w.target = '_blank'; w.rel = 'noopener'; ac.append(w);
   if (r.pode_cancelar && !confirmando) { const b = no('button', 'Cancelar reserva', 'btn btn-sec'); b.type = 'button'; b.onclick = () => pedirCancelamento(r); ac.append(b); }
   clearTimeout(tempo);
   if (r.status === 'aguardando_pagamento') tempo = setTimeout(carregar, 8000);
 }
+// Pix primeiro, dentro da página: no celular, a tela do Mercado Pago pode exigir o app.
+let chavePagamento = null;
+const horaSP = (ms) => new Date(ms).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' });
+function pintarPagamento(r) {
+  const caixa = el('pagamento');
+  const aberto = r.status === 'aguardando_pagamento' && (r.pagar_url || r.pix) && !confirmando;
+  const chave = aberto ? `${r.pix?.qr ?? ''}|${r.pagar_url ?? ''}` : '';
+  if (chave === chavePagamento) return;
+  chavePagamento = chave;
+  if (!aberto) { caixa.classList.add('hidden'); caixa.replaceChildren(); return; }
+  caixa.classList.remove('hidden');
+  const partes = [no('h2', 'Como você quer pagar?', 'font-heading text-lg text-white font-bold')];
+  const blocoPix = no('div', null, 'rounded-lg bg-black/30 p-4 space-y-3 text-sm');
+  if (r.pix) mostrarPix(blocoPix, r.pix);
+  else {
+    const b = no('button', 'Pagar com Pix', 'btn w-full'); b.type = 'button';
+    const erro = no('p', '', 'text-red-400'); erro.setAttribute('role', 'alert');
+    b.onclick = async () => {
+      b.disabled = true; b.textContent = 'Gerando o Pix…'; erro.textContent = '';
+      try { const p = await apiReservas(`/api/reservas/${encodeURIComponent(COD)}/pix`, { token: TOKEN }); chavePagamento = `${p.qr}|${r.pagar_url ?? ''}`; mostrarPix(blocoPix, p); }
+      catch (e) { b.disabled = false; b.textContent = 'Pagar com Pix'; erro.textContent = e.message; if (e.codigo === 'sem_pagamento') carregar(); }
+    };
+    blocoPix.append(b, no('p', 'Aprovação na hora, pelo app do seu banco. Não precisa de conta no Mercado Pago.', 'text-gray-400 text-xs'), erro);
+  }
+  partes.push(blocoPix);
+  if (r.pagar_url) {
+    const blocoCartao = no('div', null, 'space-y-2 text-sm');
+    const a = no('a', 'Pagar com cartão', 'btn btn-sec w-full'); a.href = r.pagar_url;
+    blocoCartao.append(a, no('p', 'O cartão é pago na página do Mercado Pago. Se pelo celular ela pedir para instalar o app, volte aqui e pague com Pix, ou fale com a gente pelo WhatsApp.', 'text-gray-400 text-xs'));
+    partes.push(blocoCartao);
+  }
+  caixa.replaceChildren(...partes);
+}
+function mostrarPix(alvo, p) {
+  const itens = [no('p', 'Pix gerado', 'font-bold text-white')];
+  if (p.qr_img) {
+    const img = no('img', null, 'mx-auto bg-white p-2 rounded w-56 h-56'); img.src = `data:image/png;base64,${p.qr_img}`; img.alt = 'QR code do Pix';
+    itens.push(img);
+  }
+  const codigo = no('textarea', null, 'campo text-xs'); codigo.readOnly = true; codigo.rows = 3; codigo.value = p.qr; codigo.setAttribute('aria-label', 'Código Pix copia e cola');
+  const copiar = no('button', 'Copiar código Pix', 'btn w-full'); copiar.type = 'button';
+  copiar.onclick = async () => {
+    try { await navigator.clipboard.writeText(p.qr); } catch { codigo.select(); document.execCommand('copy'); }
+    copiar.textContent = 'Código copiado!'; setTimeout(() => { copiar.textContent = 'Copiar código Pix'; }, 2500);
+  };
+  itens.push(codigo, copiar,
+    no('p', 'No app do seu banco, escolha Pix e depois "Pix Copia e Cola" (ou leia o QR code) e cole o código. Assim que o pagamento cair, esta página confirma sozinha.', 'text-gray-300 text-xs'),
+    no('p', `Pague até as ${horaSP(p.expira_em)}.`, 'text-yellow-300 text-xs font-bold'));
+  alvo.replaceChildren(...itens);
+}
 function pedirCancelamento(r) {
   confirmando = true; clearTimeout(tempo);
+  chavePagamento = null; el('pagamento').classList.add('hidden');
   const c = el('cancelar'); c.classList.remove('hidden');
   const txt = r.cancelamento ? (r.cancelamento.centavos ? `Pela nossa política, você recebe de volta ${brl(r.cancelamento.centavos)} (${r.cancelamento.pct}% do total).` : 'Pela nossa política, neste prazo não há reembolso.') : 'Ainda não houve pagamento, então não há valor a devolver.';
   const sim = no('button', 'Sim, cancelar', 'btn'); sim.type = 'button';

@@ -158,7 +158,7 @@ el('passo3').addEventListener('submit', async (ev) => {
   const b = el('pagar'); b.disabled = true; b.textContent = 'Abrindo o pagamento…';
   try {
     const r = await apiReservas('/api/reservas', { acomodacao: opcaoAtual.id, checkin: el('checkin').value, checkout: el('checkout').value, quantidade: Number(el('quantidade').value), nome, email: el('email').value.trim(), telefone: el('telefone').value, aceite_politica: true });
-    location.href = r.pagar_url;
+    location.href = `../reserva/?c=${encodeURIComponent(r.codigo)}&t=${encodeURIComponent(r.token)}`;
   } catch (e) {
     b.disabled = false; b.textContent = 'Ir para o pagamento';
     if (e.codigo === 'sem_vaga') { el('erroForm').textContent = e.message; opcaoAtual = null; await consultar(); el('passo2').scrollIntoView({ behavior: 'smooth' }); }
