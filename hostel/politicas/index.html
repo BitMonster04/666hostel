@@ -53,7 +53,7 @@ apiReservas('/api/config').then((c) => {
   if (c.cancelamento.arrependimento_dias) el('faixas').prepend(no('li', `Compras canceladas em até ${c.cancelamento.arrependimento_dias} dias, antes do check-in: reembolso integral.`));
   el('contato').textContent = `WhatsApp (11) 98099-1685 · ${c.empresa.email}`;
 }).catch(() => {
-  el('empresa').textContent = 'Rua Padre de Carvalho, 666, Pinheiros, São Paulo/SP.'; el('horarios').textContent = 'Fale com a gente pelo WhatsApp.';
+  el('empresa').textContent = 'Rua Padre Carvalho, 666, Pinheiros, São Paulo/SP.'; el('horarios').textContent = 'Fale com a gente pelo WhatsApp.';
   el('faixas').replaceChildren(no('li', 'Consulte as regras com a gente pelo WhatsApp (11) 98099-1685.')); el('contato').textContent = 'WhatsApp (11) 98099-1685';
 });
 </script>
